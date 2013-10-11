@@ -1,0 +1,32 @@
+# shoulda matcher snippets
+snippet it{
+	it { should ${1} }
+snippet it'
+	it '${1}' do
+		${2}
+	end
+snippet it"
+	it '${1}' do
+		${2}
+	end
+snippet have_db
+	have_db_column(:${1})
+snippet have_att
+	have_attached_file(:${1})
+# factory girl
+snippet fact
+	factory :${1} do
+		${2}
+	end
+# general
+snippet pry
+	binding.pry
+snippet gem
+	gem '${1}'
+# rspec
+snippet shelp
+	require 'spec_helper'
+
+	describe ${1} do
+		${2}
+	end

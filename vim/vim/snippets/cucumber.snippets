@@ -1,0 +1,38 @@
+# shoulda matcher snippets
+snippet Feature
+	Feature: ${1}
+	  In order to ${2}
+	  A ${3}
+	  Should be able to ${4}
+
+	Background: Background title
+	  Given I have initial steps
+	  And some more steps
+
+	Scenario: Title for scenario
+	  Given I have an initial step
+	  When I do this
+	  Then I should see this
+	  And I should see this
+snippet it'
+	it '${1}' do
+		${2}
+	end
+snippet it"
+	it '${1}' do
+		${2}
+	end
+snippet have_db
+	have_db_column(:${1})
+snippet have_att
+	have_attached_file(:${1})
+
+# factory girl
+snippet fact
+	factory :${1} do
+		${2}
+	end
+
+# general
+snippet pry
+	binding.pry
