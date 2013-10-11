@@ -1,0 +1,19 @@
+# OS generated files #
+######################
+.ruby-version
+custom_plan.rb
+.agignore
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
+.netrwhist
+zeus.json
+doc/tags
+tags
+projections.json
+.env

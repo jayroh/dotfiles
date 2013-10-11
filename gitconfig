@@ -1,0 +1,40 @@
+[heroku]
+	account = thoughtbot
+[user]
+	name = Joel Oliveira
+	email = joel@thoughtbot.com
+[alias]
+	ls = branch
+	create = !grb create
+	del = !grb rm
+	bracnh = branch
+	pus = push
+	puhs = push
+	pul = pull
+	plul = pull
+	s = status
+	stats = status
+	stauts = status
+	continue = rebase --continue
+	ci = commit -v
+	co = checkout
+	lol = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative -10
+	getpr = "!sh -c 'git fetch origin pull/$0/head:pr-$0 && git co pr-$0'"
+	pr = !hub pull-request
+	rebase-origin = !git fetch origin && git rebase origin/master
+	ma = checkout master
+	mas = checkout master
+	squash-origin = !git rebase -i origin/master
+	file = log --all --graph\n--pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'\n--abbrev-commit --date=relative
+	file-history = log --all --graph\n--pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'\n--abbrev-commit --date=relative
+[color]
+	diff = auto
+	ui = auto
+[core]
+	excludesfile = /Users/joel/.gitignore_global
+[color "status"]
+	added = yellow
+	changed = green
+	untracked = cyan
+[push]
+	default = current

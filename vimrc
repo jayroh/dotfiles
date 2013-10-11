@@ -48,7 +48,7 @@ colorscheme grb256
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
-source $HOME/.vim/autocmd.vim
+source $HOME/.vim/rcfiles/autocmd.vim
 
 " Let Vundle manage Vundle
 Bundle 'gmarik/vundle'
@@ -208,4 +208,4 @@ nnoremap <leader>gem :tabe Gemfile<CR>
 nnoremap <leader>db :tabe db/schema.rb<CR>
 nnoremap <leader>route :tabe config/routes.rb<CR>
 
-source $HOME/.vim/functions.vim
+source $HOME/.vim/rcfiles/functions.vim
