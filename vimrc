@@ -54,6 +54,7 @@ source $HOME/.vim/rcfiles/autocmd.vim
 Bundle 'gmarik/vundle'
 
 " Define bundles via Github repos
+Bundle 'christoomey/vim-tmux-navigator'
 Bundle 'thoughtbot/vim-rspec'
 Bundle 'regedarek/ZoomWin.git'
 Bundle 'Lokaltog/vim-powerline'
@@ -172,18 +173,6 @@ map <leader>v :v <C-R>=expand("%:p:h") . "/" <CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 map <leader>gr :topleft :split config/routes.rb<cr>
 map <leader>gg :topleft 100 :split Gemfile<cr>
-" map <leader>gR :call ShowRoutes()<cr>
-" map <leader>gv :CommandTFlush<cr>\|:CommandT app/views<cr>
-" map <leader>gc :CommandTFlush<cr>\|:CommandT app/controllers<cr>
-" map <leader>gm :CommandTFlush<cr>\|:CommandT app/models<cr>
-" map <leader>gh :CommandTFlush<cr>\|:CommandT app/helpers<cr>
-" map <leader>gl :CommandTFlush<cr>\|:CommandT lib<cr>
-" map <leader>gp :CommandTFlush<cr>\|:CommandT public<cr>
-" map <leader>gs :CommandTFlush<cr>\|:CommandT public/stylesheets/sass<cr>
-" map <leader>gf :CommandTFlush<cr>\|:CommandT features<cr>
-" map <leader>gt :CommandTFlush<cr>\|:CommandT spec<cr>
-" map <leader>f :CommandTFlush<cr>\|:CommandT<cr>
-" map <leader>F :CommandTFlush<cr>\|:CommandT %%<cr>
 
 map <leader>w :call TrimWhiteSpace()<cr>
 map! <leader>w :call TrimWhiteSpace()<cr>

@@ -9,6 +9,7 @@ ZSH_THEME="robbyrussell"
 plugins=(git)
 
 export PATH=./bin:/usr/local/share/npm/bin/:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin
+export PATH="$HOME/.rbenv/bin:$PATH"
 
 source $ZSH/oh-my-zsh.sh
 source `find /usr/local/Cellar/zsh-syntax-highlighting -name zsh-syntax-highlighting.plugin.zsh`
@@ -29,5 +30,5 @@ alias restore_to='pg_restore --verbose --clean --no-acl --no-owner -d '
 alias session='tmux new -s'
 alias zs='zeus rspec'
 
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"·
 [[ -f `brew --prefix`/etc/autojump.sh ]] && . `brew --prefix`/etc/autojump.sh
+eval "$(rbenv init -)"
