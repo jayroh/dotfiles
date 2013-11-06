@@ -1,13 +1,13 @@
-[heroku]
-	account = thoughtbot
 [user]
 	name = Joel Oliveira
-	email = joel@thoughtbot.com
+	email = joel.oliveira@gmail.com
 [alias]
 	ls = branch
 	create = !grb create
 	del = !grb rm
 	bracnh = branch
+	push = !echo "use p"
+	p = push
 	pus = push
 	puhs = push
 	pul = pull
