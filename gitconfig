@@ -6,7 +6,6 @@
 	create = !grb create
 	del = !grb rm
 	bracnh = branch
-	push = !echo "use p"
 	p = push
 	pus = push
 	puhs = push
@@ -38,3 +37,7 @@
 	untracked = cyan
 [push]
 	default = current
+[rerere]
+	enabled = 1
+[github]
+	user = jayroh
