@@ -52,22 +52,37 @@ map <leader>s :call RunNearestSpec()<CR>
 map <leader>l :call RunLastSpec()<CR>
 
 " rails migrations
+map <leader>ra :call Rake()<CR>
+map <leader>zra :call ZeusRake()<CR>
 map <leader>rm :call Migrate()<CR>
 map <leader>rrm :call Remigrate()<CR>
+map <leader>bun :call GoBundle()<CR>
+
+function! ZeusRake()
+  execute 'call Send_to_Tmux("zeus rake\n")'
+endfunction
+
+function! Rake()
+  execute 'call Send_to_Tmux("rake\n")'
+endfunction
+
+function! GoBundle()
+  execute 'call Send_to_Tmux("bundle install\n")'
+endfunction
 
 function! Remigrate()
   if InEngine()
-    execute ":!rake db:drop db:create db:migrate && RAILS_ENV=test rake db:drop db:create db:migrate"
+    execute 'call Send_to_Tmux("rake db:drop db:create db:migrate && RAILS_ENV=test rake db:drop db:create db:migrate\n")'
   else
-    execute ":!rake db:drop db:create db:migrate db:test:prepare"
+    execute 'call Send_to_Tmux("rake db:drop db:create db:migrate db:test:prepare\n")'
   endif
 endfunction
 
 function! Migrate()
   if InEngine()
-    execute ":!rake db:migrate && RAILS_ENV=test rake db:migrate"
+    execute 'call Send_to_Tmux("rake db:migrate && RAILS_ENV=test rake db:migrate\n")'
   else
-    execute ":!rake db:migrate db:test:prepare"
+    execute 'call Send_to_Tmux("rake db:migrate db:test:prepare\n")'
   endif
 endfunction
 

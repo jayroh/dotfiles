@@ -54,6 +54,9 @@ source $HOME/.vim/rcfiles/autocmd.vim
 Bundle 'gmarik/vundle'
 
 " Define bundles via Github repos
+Bundle 'scrooloose/syntastic'
+Bundle 'kien/ctrlp.vim'
+Bundle 'dockyard/vim-easydir'
 Bundle 'christoomey/vim-tmux-navigator'
 Bundle 'thoughtbot/vim-rspec'
 Bundle 'regedarek/ZoomWin.git'
@@ -84,8 +87,15 @@ Bundle 'rking/ag.vim'
 Bundle 'jgdavey/tslime.vim'
 
 
-if executable("ag")
+if executable('ag')
+  " Use ag over grep
   set grepprg=ag\ --nogroup\ --nocolor\ --column
+
+  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+
+  " ag is fast enough that CtrlP doesn't need to cache
+  let g:ctrlp_use_caching = 0
 endif
 
 nmap K :grep "\b<C-R><C-W>\b"<CR>:copen<CR>
@@ -192,7 +202,6 @@ nmap <leader>gu :GitGutterToggle<CR>
 nnoremap <leader><leader> <c-^>
 
 " Bundle! Gemfile!
-nnoremap <leader>bun :!bundle<CR>
 nnoremap <leader>gem :tabe Gemfile<CR>
 nnoremap <leader>db :tabe db/schema.rb<CR>
 nnoremap <leader>route :tabe config/routes.rb<CR>

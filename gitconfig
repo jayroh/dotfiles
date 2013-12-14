@@ -11,7 +11,8 @@
 	puhs = push
 	pul = pull
 	plul = pull
-	s = status
+	a = add -A
+	s = status -sb
 	stats = status
 	stauts = status
 	continue = rebase --continue

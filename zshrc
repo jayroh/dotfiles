@@ -10,6 +10,7 @@ plugins=(git)
 
 export PATH=./bin:/usr/local/share/npm/bin/:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin
 export PATH="$HOME/.rbenv/bin:$PATH"
+export PATH="/opt/homebrew-cask/Caskroom/postgres/latest/Postgres.app/Contents/MacOS/bin:$PATH"
 
 source $ZSH/oh-my-zsh.sh
 source `find /usr/local/Cellar/zsh-syntax-highlighting -name zsh-syntax-highlighting.plugin.zsh`
@@ -22,6 +23,7 @@ alias git='echo "use g"'
 alias gti='echo "use g"'
 alias gut='echo "use g"'
 alias sb='/usr/local/bin/git status -sb'
+alias gap='sed -i "" "s/binding\.pry\s*//g" `g diff --name-only`'
 
 alias attach='tmux attach -t'
 alias be='bundle exec'
