@@ -1,4 +1,4 @@
-if has("autocmd")
+if has('autocmd')
   augroup myfiletypes
     autocmd!
 
@@ -38,4 +38,7 @@ if has("autocmd")
         \ endi
 else
   set autoindent
+  set com=fb:*
+  set formatoptions=tcq
+  set formatlistpat=^\\s*[0-9*]\\+[\\]:.)}\\t\ ]\\s*
 endif
