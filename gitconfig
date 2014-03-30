@@ -24,6 +24,7 @@
 	rebase-origin = !git fetch origin && git rebase origin/master
 	ma = checkout master
 	mas = checkout master
+  sta = checkout staging
 	squash-origin = !git rebase -i origin/master
 	file = log --all --graph\n--pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'\n--abbrev-commit --date=relative
 	file-history = log --all --graph\n--pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'\n--abbrev-commit --date=relative
@@ -32,6 +33,7 @@
 	ui = auto
 [core]
 	excludesfile = /Users/joel/.gitignore_global
+	editor = vim
 [color "status"]
 	added = yellow
 	changed = green

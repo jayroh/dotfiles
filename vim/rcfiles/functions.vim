@@ -53,6 +53,9 @@ map <leader>l :call RunLastSpec()<CR>
 
 " rails migrations
 map <leader>ra :call Rake()<CR>
+map <leader>dra :call DevRake()<CR>
+map <leader>pad :call AdHoc()<CR>
+map <leader>rel :call AppRelease()<CR>
 map <leader>zra :call ZeusRake()<CR>
 map <leader>rm :call Migrate()<CR>
 map <leader>rrm :call Remigrate()<CR>
@@ -64,6 +67,18 @@ endfunction
 
 function! Rake()
   execute 'call Send_to_Tmux("rake\n")'
+endfunction
+
+function! DevRake()
+  execute 'call Send_to_Tmux("reattach-to-user-namespace -l rake\n")'
+endfunction
+
+function! AdHoc()
+  execute 'call Send_to_Tmux("reattach-to-user-namespace -l rake adhoc\n")'
+endfunction
+
+function! AppRelease()
+  execute 'call Send_to_Tmux("reattach-to-user-namespace -l rake appstore\n")'
 endfunction
 
 function! GoBundle()
@@ -90,3 +105,18 @@ function! InEngine()
   let g:gemspec = glob("`find . -name \*.gemspec`")
   return g:gemspec != ""
 endfunction
+
+function! InMotion()
+  let g:motionproj = system("grep RubyMotion Rakefile")
+  return g:motionproj != ""
+endfunction
+
+" run the most recent command in the other pane
+map <leader>ll :call Send_to_Tmux("!!\n\n")<CR>
+map <leader>bc :call Send_to_Tmux("rubocop\n")<CR>
+map <leader>bo :call Send_to_Tmux("rubocop ". expand('%:p') ."\n")<CR>
+map <leader>cl :call Send_to_Tmux("clear\n")<CR>
+map <leader>ex :call Send_to_Tmux("exit\n")<CR>
+
+" dash
+nmap <silent> <leader>d <Plug>DashGlobalSearch

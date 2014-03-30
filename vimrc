@@ -18,6 +18,7 @@ set scrolloff=3
 set pastetoggle=<F6>
 set colorcolumn=80
 set encoding=utf-8
+set relativenumber
 set number
 set wildmenu
 set wildmode=list:longest,list:full
@@ -40,7 +41,6 @@ set title
 set titlestring=VIM:\ %-25.55F\ %a%r%m titlelen=70
 setlocal numberwidth=5
 syntax on
-colorscheme grb256
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Vundle
@@ -54,6 +54,8 @@ source $HOME/.vim/rcfiles/autocmd.vim
 Bundle 'gmarik/vundle'
 
 " Define bundles via Github repos
+Bundle 'nanotech/jellybeans.vim'
+Bundle 'mattn/emmet-vim'
 Bundle 'scrooloose/syntastic'
 Bundle 'kien/ctrlp.vim'
 Bundle 'dockyard/vim-easydir'
@@ -62,13 +64,12 @@ Bundle 'thoughtbot/vim-rspec'
 Bundle 'regedarek/ZoomWin.git'
 Bundle 'Lokaltog/vim-powerline'
 Bundle 'airblade/vim-rooter'
-Bundle 'airblade/vim-gitgutter'
-Bundle 'cstrahan/grb256'
 Bundle 'duff/vim-scratch'
 Bundle 'int3/vim-extradite'
 Bundle 'kchmck/vim-coffee-script'
 Bundle 'msanders/snipmate.vim'
 Bundle 'sickill/vim-pasta'
+Bundle 'tpope/vim-commentary'
 Bundle 'tpope/vim-cucumber'
 Bundle 'tpope/vim-endwise'
 Bundle 'tpope/vim-fugitive'
@@ -85,7 +86,17 @@ Bundle 'xenoterracide/html.vim'
 Bundle 'takac/vim-commandcaps'
 Bundle 'rking/ag.vim'
 Bundle 'jgdavey/tslime.vim'
+Bundle 'rizzatti/funcoo.vim'
+Bundle 'rizzatti/dash.vim'
+Bundle 'tmhedberg/matchit'
+Bundle 'kana/vim-textobj-user'
+Bundle 'nelstrom/vim-textobj-rubyblock'
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Colors
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+colorscheme jellybeans
 
 if executable('ag')
   " Use ag over grep
@@ -161,6 +172,9 @@ nmap # #nzz
 " Yank from the cursor to the end of the line, to be consistent with C and D.
 nnoremap Y y$
 
+" copy entire buffer
+nnoremap <leader>aa :%y+<cr>
+
 " Hide search highlighting
 map <silent> <leader>nh :nohls <CR>
 
@@ -191,19 +205,13 @@ map <leader>bv :EasyBufferVerticalRight<cr>
 map <leader>bs :EasyBufferHorizontalBelow<cr>
 map <leader>be :EasyBuffer<cr>
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Git Gutter
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-highlight clear signcolumn
-let g:gitgutter_enabled = 0
-nmap <leader>gu :GitGutterToggle<CR>
-
 " Switch between the last two files
 nnoremap <leader><leader> <c-^>
 
 " Bundle! Gemfile!
 nnoremap <leader>gem :tabe Gemfile<CR>
-nnoremap <leader>db :tabe db/schema.rb<CR>
+noremap <leader>db :tabe db/schema.rb<CR>
 nnoremap <leader>route :tabe config/routes.rb<CR>
 
 source $HOME/.vim/rcfiles/functions.vim
+source $HOME/.vim/rcfiles/emmet.vim
