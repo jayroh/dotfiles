@@ -37,12 +37,20 @@ nmap <leader>9 :%s/:\([^ ]*\)\(\s*\)=>/\1:/g<cr>
 
 " Rspec
 function! GuessRspecCommand()
-  let g:haszeus = glob("`find . -name .zeus.sock`")
+  let g:haszeus = system("test -S .zeus.sock")
 
-  if g:haszeus != ''
+  if v:shell_error == 0
     return 'call Send_to_Tmux("zeus test {spec}\n")'
   else
-    return 'call Send_to_Tmux("rspec {spec}\n")'
+    return 'call Send_to_Tmux("bundle exec rspec {spec}\n")'
+  endif
+endfunction
+
+function! ToggleZeus()
+  if g:rspec_command == 'call Send_to_Tmux("zeus test {spec}\n")'
+    let g:rspec_command = 'call Send_to_Tmux("bundle exec rspec {spec}\n")'
+  else
+    let g:rspec_command = 'call Send_to_Tmux("zeus test {spec}\n")'
   endif
 endfunction
 
@@ -51,7 +59,7 @@ map <leader>t :call RunCurrentSpecFile()<CR>
 map <leader>s :call RunNearestSpec()<CR>
 map <leader>l :call RunLastSpec()<CR>
 
-" rails migrations
+" rails shortcuts
 map <leader>ra :call Rake()<CR>
 map <leader>dra :call DevRake()<CR>
 map <leader>pad :call AdHoc()<CR>
@@ -60,6 +68,9 @@ map <leader>zra :call ZeusRake()<CR>
 map <leader>rm :call Migrate()<CR>
 map <leader>rrm :call Remigrate()<CR>
 map <leader>bun :call GoBundle()<CR>
+map <leader>tz :call ToggleZeus()<CR>
+map <leader>zt :call ToggleZeus()<CR>
+map <leader>mi :Rmigration<CR>
 
 function! ZeusRake()
   execute 'call Send_to_Tmux("zeus rake\n")'
@@ -97,7 +108,7 @@ function! Migrate()
   if InEngine()
     execute 'call Send_to_Tmux("rake db:migrate && RAILS_ENV=test rake db:migrate\n")'
   else
-    execute 'call Send_to_Tmux("rake db:migrate db:test:prepare\n")'
+    execute 'call Send_to_Tmux("rake db:migrate test:prepare\n")'
   endif
 endfunction
 
