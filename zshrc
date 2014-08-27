@@ -1,17 +1,14 @@
 ZSH=$HOME/.oh-my-zsh
 ZSH_THEME="robbyrussell"
-# CASE_SENSITIVE="true"
-# DISABLE_AUTO_UPDATE="true"
-# DISABLE_LS_COLORS="true"
-# DISABLE_AUTO_TITLE="true"
-# COMPLETION_WAITING_DOTS="true"
 
 plugins=(git)
 
 export PATH=./bin:/usr/local/share/npm/bin/:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin
+export PATH="/usr/local/bin:$PATH"
 export PATH="$HOME/.rbenv/bin:$PATH"
 export PATH="/opt/homebrew-cask/Caskroom/postgres/latest/Postgres.app/Contents/MacOS/bin:$PATH"
 
+source $HOME/.rubymotion
 source $ZSH/oh-my-zsh.sh
 source `find /usr/local/Cellar/zsh-syntax-highlighting -name zsh-syntax-highlighting.plugin.zsh`
 

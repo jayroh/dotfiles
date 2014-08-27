@@ -22,8 +22,6 @@ set relativenumber
 set number
 set wildmenu
 set wildmode=list:longest,list:full
-set complete=.,w,t
-set complete-=i
 set list listchars=tab:»·,trail:·
 set gdefault
 set foldenable
@@ -76,12 +74,11 @@ Bundle 'tpope/vim-fugitive'
 Bundle 'tpope/vim-markdown'
 Bundle 'tpope/vim-ragtag'
 Bundle 'tpope/vim-rails'
-Bundle 'tpope/vim-rvm'
 Bundle 'tpope/vim-surround'
 Bundle 'troydm/easybuffer.vim'
+Bundle 'vim-ruby/vim-ruby'
 Bundle 'vim-scripts/ctags.vim'
 Bundle 'vim-scripts/greplace.vim'
-Bundle 'vim-scripts/tComment'
 Bundle 'xenoterracide/html.vim'
 Bundle 'takac/vim-commandcaps'
 Bundle 'rking/ag.vim'
@@ -91,6 +88,7 @@ Bundle 'rizzatti/dash.vim'
 Bundle 'tmhedberg/matchit'
 Bundle 'kana/vim-textobj-user'
 Bundle 'nelstrom/vim-textobj-rubyblock'
+" Bundle 'fatih/vim-go'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Colors
@@ -109,16 +107,14 @@ if executable('ag')
   let g:ctrlp_use_caching = 0
 endif
 
-nmap K :grep "\b<C-R><C-W>\b"<CR>:copen<CR>
+nmap K :Ag "\b<C-R><C-W>\b"<CR>
 
 let mapleader = ","
 let g:Powerline_symbols = 'fancy'
 
-nmap <leader>ct :!ctags -R --exclude=.git --exclude=log * $(rvm gemdir)<CR>
+nmap <leader>ct :!ctags -R --exclude=.git --exclude=log * $(gem env gemdir)<CR>
 nmap <leader>z :ZoomWin<CR>
 nmap <leader>sv :source $MYVIMRC<CR>
-nnoremap // :TComment<CR>
-vnoremap // :TComment<CR>
 nnoremap <F5> :set nonumber!<CR>
 
 scriptencoding utf-8
@@ -212,6 +208,9 @@ nnoremap <leader><leader> <c-^>
 nnoremap <leader>gem :tabe Gemfile<CR>
 noremap <leader>db :tabe db/schema.rb<CR>
 nnoremap <leader>route :tabe config/routes.rb<CR>
+
+" Rubocop on save
+let g:syntastic_ruby_checkers = ['mri', 'rubocop']
 
 source $HOME/.vim/rcfiles/functions.vim
 source $HOME/.vim/rcfiles/emmet.vim

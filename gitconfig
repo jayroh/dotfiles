@@ -5,6 +5,7 @@
 	ls = branch
 	create = !grb create
 	del = !grb rm
+	rename = !grb rename
 	bracnh = branch
 	p = push
 	pus = push
@@ -21,6 +22,7 @@
 	lol = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative -10
 	getpr = "!sh -c 'git fetch origin pull/$0/head:pr-$0 && git co pr-$0'"
 	pr = !hub pull-request
+	clone = !hub clone
 	rebase-origin = !git fetch origin && git rebase origin/master
 	ma = checkout master
 	mas = checkout master
