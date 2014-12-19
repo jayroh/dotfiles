@@ -46,3 +46,5 @@
 	enabled = 1
 [github]
 	user = jayroh
+[pull]
+	rebase = true
