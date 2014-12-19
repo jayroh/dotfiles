@@ -70,7 +70,12 @@ map <leader>rrm :call Remigrate()<CR>
 map <leader>bun :call GoBundle()<CR>
 map <leader>tz :call ToggleZeus()<CR>
 map <leader>zt :call ToggleZeus()<CR>
+map <leader>zc :call ZeusConsole()<CR>
 map <leader>mi :Rmigration<CR>
+
+function! ZeusConsole()
+  execute 'call Send_to_Tmux("zeus console\n")'
+endfunction
 
 function! ZeusRake()
   execute 'call Send_to_Tmux("zeus rake\n")'
@@ -128,6 +133,13 @@ map <leader>bc :call Send_to_Tmux("rubocop\n")<CR>
 map <leader>bo :call Send_to_Tmux("rubocop ". expand('%:p') ."\n")<CR>
 map <leader>cl :call Send_to_Tmux("clear\n")<CR>
 map <leader>ex :call Send_to_Tmux("exit\n")<CR>
+map <leader>q :call Send_to_Tmux("q\n")<CR>
 
 " dash
 nmap <silent> <leader>d <Plug>DashGlobalSearch
+
+" rubymotion stuff
+if InMotion()
+  let g:loaded_syntastic_ruby_rubocop_checker = 0
+endif
+
