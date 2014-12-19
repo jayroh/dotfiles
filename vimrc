@@ -94,7 +94,11 @@ Bundle 'nelstrom/vim-textobj-rubyblock'
 " Colors
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-colorscheme jellybeans
+try
+  colorscheme jellybeans
+catch /^Vim\%((\a\+)\)\=:E185/
+  echo "Install the jellybeans colorscheme"
+endtry
 
 if executable('ag')
   " Use ag over grep
