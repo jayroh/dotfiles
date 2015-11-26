@@ -1,0 +1,71 @@
+snippet article
+	<article class="${1}">
+		${2}
+	</article>
+snippet cache
+	<% cache ${1} do %>
+		${2}
+	<% end %>
+snippet !
+	<!-- ${1} -->
+snippet content
+	<% content_for :${1}, '${2}' %>
+snippet render
+	<%= render '${1}' %>
+snippet yield
+	<%= yield :${1} %>
+snippet end
+	<% end %>
+snippet %
+	<% ${1} %>
+snippet a
+	<a href="${1:#}">${2}</a>
+snippet lorem
+	Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+	sed do eiusmod tempor incididunt ut labore et dolore magna
+	aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+	ullamco laboris nisi ut aliquip ex ea commodo consequat.
+	Duis aute irure dolor in reprehenderit in voluptate velit
+	esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+	occaecat cupidatat non proident, sunt in culpa qui officia
+	deserunt mollit anim id est laborum.
+snippet p
+	<p>
+		${1}
+	</p>
+snippet h1
+	<h1 class="${1}">${2}</h1>
+snippet h2
+	<h2 class="${1}">${2}</h2>
+snippet h3
+	<h3 class="${1}">${2}</h3>
+snippet h4
+	<h4 class="${1}">${2}</h4>
+snippet img
+	<img src="${1}" class="${2}" title="${3}" alt="${4}">
+snippet header
+	<header>
+		${1}
+	<header>
+snippet pry
+	<% binding.pry %>
+snippet =
+	<%= ${1} %>
+snippet if
+	<% if ${1} -%>
+		${2}
+	<% end -%>
+snippet else
+	<% else -%>
+snippet elsif
+	<% elsif -%>
+snippet link_to
+	<%= link_to ${1}, ${2}_path %>
+snippet sp
+	<span>${1}</span>
+snippet li
+	<li>${1}</li>
+snippet ul
+	<ul>
+		${1}
+	</ul>

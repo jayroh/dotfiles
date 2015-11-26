@@ -24,6 +24,7 @@ if has('autocmd')
     au BufRead,BufNewFile *.scss set ft=scss
     au BufRead,BufNewFile *.less set ft=less
     au BufRead,BufNewFile *.coffee set ft=coffee
+    au BufRead,BufNewFile *.es6 set ft=javascript
     au BufRead,BufNewFile *.coffee set autoindent shiftwidth=2 softtabstop=2 expandtab
     au BufRead,BufNewFile *.coffee set foldmethod=indent nofoldenable
     au BufRead,BufNewFile *.rb if filereadable('app/app_delegate.rb')|set filetype=rubymotion.ruby|endif

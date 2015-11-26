@@ -19,3 +19,4 @@ doc/tags
 tags
 projections.json
 .env
+bin/tmuxify

@@ -88,6 +88,7 @@ Bundle 'rizzatti/dash.vim'
 Bundle 'tmhedberg/matchit'
 Bundle 'kana/vim-textobj-user'
 Bundle 'nelstrom/vim-textobj-rubyblock'
+Bundle 'vim-scripts/nginx.vim'
 " Bundle 'fatih/vim-go'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -118,7 +119,6 @@ let g:Powerline_symbols = 'fancy'
 
 nmap <leader>ct :!ctags -R --exclude=.git --exclude=log * $(gem env gemdir)<CR>
 nmap <leader>z :ZoomWin<CR>
-nmap <leader>sv :source $MYVIMRC<CR>
 nnoremap <F5> :set nonumber!<CR>
 
 scriptencoding utf-8
@@ -213,8 +213,11 @@ nnoremap <leader>gem :tabe Gemfile<CR>
 noremap <leader>db :tabe db/schema.rb<CR>
 nnoremap <leader>route :tabe config/routes.rb<CR>
 
-" Rubocop on save
+" Syntastic
+let g:syntastic_html_tidy_exec = 'tidy5'
 let g:syntastic_ruby_checkers = ['mri', 'rubocop']
+let g:syntastic_html_tidy_ignore_errors = [ 'trimming empty <span>', 'possibly useless use of a variable in void context' ]
+let g:syntastic_quiet_messages = { "regex": 'possibly useless use of a variable in void context' }
 
 source $HOME/.vim/rcfiles/functions.vim
 source $HOME/.vim/rcfiles/emmet.vim

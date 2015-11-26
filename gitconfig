@@ -2,34 +2,38 @@
 	name = Joel Oliveira
 	email = joel.oliveira@gmail.com
 [alias]
-	ls = branch
+	a = add -A
+	bracnh = branch
+	ci = commit -v
+	clone = !hub clone
+	co = checkout
+	continue = rebase --continue
 	create = !grb create
 	del = !grb rm
-	rename = !grb rename
-	bracnh = branch
-	p = push
-	pus = push
-	puhs = push
-	pul = pull
-	plul = pull
-	a = add -A
-	s = status -sb
-	stats = status
-	stauts = status
-	continue = rebase --continue
-	ci = commit -v
-	co = checkout
-	lol = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative -10
-	getpr = "!sh -c 'git fetch origin pull/$0/head:pr-$0 && git co pr-$0'"
-	pr = !hub pull-request
-	clone = !hub clone
-	rebase-origin = !git fetch origin && git rebase origin/master
-	ma = checkout master
-	mas = checkout master
-  sta = checkout staging
-	squash-origin = !git rebase -i origin/master
+	dev = checkout development
 	file = log --all --graph\n--pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'\n--abbrev-commit --date=relative
 	file-history = log --all --graph\n--pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'\n--abbrev-commit --date=relative
+	getpr = "!sh -c 'git fetch origin pull/$0/head:pr-$0 && git co pr-$0'"
+	lol = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative -10
+	ls = branch
+	ma = checkout master
+	mas = checkout master
+	mine = "!git branch | grep jro"
+	p = push
+	plul = pull
+	pr = !hub pull-request
+	praise = blame
+	puhs = push
+	pul = pull
+	pus = push
+	rebase-origin = !git fetch origin && git rebase origin/master
+	rename = !grb rename
+	s = status -sb
+	squash-origin = !git rebase -i origin/master
+	sta = checkout staging
+	stats = status
+	stauts = status
+	sta = checkout staging
 [color]
 	diff = auto
 	ui = auto
@@ -48,3 +52,5 @@
 	user = jayroh
 [pull]
 	rebase = true
+[heroku]
+	account = joel

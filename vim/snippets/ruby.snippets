@@ -1,3 +1,11 @@
+snippet mod
+	module ${1}
+		${2}
+	end
+snippet cla
+	class ${1}
+		${2}
+	end
 snippet init
 	def initialize(${1})
 		${2}
@@ -6,6 +14,10 @@ snippet init
 snippet it{
 	it { should ${1} }
 snippet it'
+	it '${1}' do
+		${2}
+	end
+snippet it
 	it '${1}' do
 		${2}
 	end
@@ -30,7 +42,23 @@ snippet gem
 # rspec
 snippet shelp
 	require 'spec_helper'
-
+snippet desc
 	describe ${1} do
 		${2}
 	end
+snippet cont
+	context '${1}' do
+		${2}
+	end
+snippet feat
+	feature '${1}' do
+		scenario '${2}' do
+			${3}
+		end
+	end
+snippet scen
+	scenario '${1}' do
+		${2}
+	end
+snippet open
+	save_and_open_page

@@ -1,4 +1,13 @@
- if !exists("*ShowRoutes")
+map <leader>sv :call ReloadMyVim()<CR>
+
+if !exists("*ReloadMyVim")
+  function! ReloadMyVim()
+    :source $MYVIMRC
+    :call ReloadAllSnippets()
+  endfunction
+endif
+
+if !exists("*ShowRoutes")
   function! ShowRoutes()
     " Requires 'scratch' plugin
     :topleft 100 :split __Routes__
@@ -54,10 +63,15 @@ function! ToggleZeus()
   endif
 endfunction
 
+function! RunLastFailingSpec()
+  execute 'call Send_to_Tmux("bundle exec rspec --only-failures\n")'
+endfunction
+
 let g:rspec_command = GuessRspecCommand()
 map <leader>t :call RunCurrentSpecFile()<CR>
 map <leader>s :call RunNearestSpec()<CR>
 map <leader>l :call RunLastSpec()<CR>
+map <leader>f :call RunLastFailingSpec()<CR>
 
 " rails shortcuts
 map <leader>ra :call Rake()<CR>
@@ -67,6 +81,7 @@ map <leader>rel :call AppRelease()<CR>
 map <leader>zra :call ZeusRake()<CR>
 map <leader>rm :call Migrate()<CR>
 map <leader>rrm :call Remigrate()<CR>
+map <leader>trm :call ThreddedMigrate()<CR>
 map <leader>bun :call GoBundle()<CR>
 map <leader>tz :call ToggleZeus()<CR>
 map <leader>zt :call ToggleZeus()<CR>
@@ -113,8 +128,12 @@ function! Migrate()
   if InEngine()
     execute 'call Send_to_Tmux("rake db:migrate && RAILS_ENV=test rake db:migrate\n")'
   else
-    execute 'call Send_to_Tmux("rake db:migrate test:prepare\n")'
+    execute 'call Send_to_Tmux("rake db:migrate db:test:prepare\n")'
   endif
+endfunction
+
+function! ThreddedMigrate()
+  execute 'call Send_to_Tmux("bin/migrate\n")'
 endfunction
 
 function! InEngine()
@@ -134,6 +153,10 @@ map <leader>bo :call Send_to_Tmux("rubocop ". expand('%:p') ."\n")<CR>
 map <leader>cl :call Send_to_Tmux("clear\n")<CR>
 map <leader>ex :call Send_to_Tmux("exit\n")<CR>
 map <leader>q :call Send_to_Tmux("q\n")<CR>
+map <leader>gs :call Send_to_Tmux("g s\n")<CR>
+map <leader>gm :call Send_to_Tmux("g mine\n")<CR>
+map <leader>ga :call Send_to_Tmux("g a\n")<CR>
+map <leader>ci :call Send_to_Tmux("g ci\n")<CR>
 
 " dash
 nmap <silent> <leader>d <Plug>DashGlobalSearch
