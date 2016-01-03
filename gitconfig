@@ -19,6 +19,7 @@
 	ma = checkout master
 	mas = checkout master
 	mine = "!git branch | grep jro"
+	theirs = "!git branch -a | grep -v jro | grep -v master"
 	p = push
 	plul = pull
 	pr = !hub pull-request
