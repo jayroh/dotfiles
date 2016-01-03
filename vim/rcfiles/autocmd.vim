@@ -10,7 +10,10 @@ if has('autocmd')
     au FileType php,javascript,html,htmldjango,css,radius set autoindent shiftwidth=2 softtabstop=2 expandtab
     au FileType vim set autoindent tabstop=2 shiftwidth=2 softtabstop=2 expandtab
     au FileType cucumber set autoindent tabstop=2 shiftwidth=2 softtabstop=2 expandtab
+    au FileType markdown setlocal textwidth=100
     au BufEnter *.haml setlocal cursorcolumn
+    au BufRead,BufNewFile *.md,*.markdown set ft=markdown
+    au BufNewFile,BufRead,BufWrite *.md,*.markdown syntax match Comment /\%^---\_.\{-}---$/
     au BufRead,BufNewFile *.html.erb set ft=html.eruby
     au BufRead,BufNewFile *etc/nginx/* set ft=nginx
     au BufRead,BufNewFile *.ru set ft=ruby

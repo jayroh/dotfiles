@@ -46,18 +46,20 @@ syntax on
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
-source $HOME/.vim/rcfiles/autocmd.vim
-
 " Let Vundle manage Vundle
 Bundle 'gmarik/vundle'
 
 " Define bundles via Github repos
+Bundle 'avakhov/vim-yaml'
 Bundle 'nanotech/jellybeans.vim'
 Bundle 'mattn/emmet-vim'
 Bundle 'scrooloose/syntastic'
 Bundle 'ctrlpvim/ctrlp.vim'
 Bundle 'dockyard/vim-easydir'
+Bundle 'mattn/webapi-vim'
 Bundle 'christoomey/vim-tmux-navigator'
+Bundle 'christoomey/vim-titlecase'
+Bundle 'christoomey/vim-quicklink'
 Bundle 'thoughtbot/vim-rspec'
 Bundle 'regedarek/ZoomWin.git'
 Bundle 'Lokaltog/vim-powerline'
@@ -116,6 +118,7 @@ nmap K :Ag "\b<C-R><C-W>\b"<CR>
 
 let mapleader = ","
 let g:Powerline_symbols = 'fancy'
+let g:markdown_fenced_languages = ['javascript', 'ruby', 'sh', 'yaml', 'javascript', 'html', 'vim', 'coffee', 'json', 'diff']
 
 nmap <leader>ct :!ctags -R --exclude=.git --exclude=log * $(gem env gemdir)<CR>
 nmap <leader>z :ZoomWin<CR>
@@ -219,5 +222,7 @@ let g:syntastic_ruby_checkers = ['mri', 'rubocop']
 let g:syntastic_html_tidy_ignore_errors = [ 'trimming empty <span>', 'possibly useless use of a variable in void context' ]
 let g:syntastic_quiet_messages = { "regex": 'possibly useless use of a variable in void context' }
 
+
+source $HOME/.vim/rcfiles/autocmd.vim
 source $HOME/.vim/rcfiles/functions.vim
 source $HOME/.vim/rcfiles/emmet.vim
