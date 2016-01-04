@@ -10,6 +10,7 @@ if has('autocmd')
     au FileType php,javascript,html,htmldjango,css,radius set autoindent shiftwidth=2 softtabstop=2 expandtab
     au FileType vim set autoindent tabstop=2 shiftwidth=2 softtabstop=2 expandtab
     au FileType cucumber set autoindent tabstop=2 shiftwidth=2 softtabstop=2 expandtab
+    au FileType irb inoremap <buffer> <silent> <CR> <Esc>:<C-u>ruby v=VIM::Buffer.current;v.append(v.line_number, eval(v[v.line_number]).inspect)<CR>
     au FileType markdown setlocal textwidth=100
     au BufEnter *.haml setlocal cursorcolumn
     au BufRead,BufNewFile *.md,*.markdown set ft=markdown
