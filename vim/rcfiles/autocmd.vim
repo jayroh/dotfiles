@@ -15,6 +15,7 @@ if has('autocmd')
     au BufEnter *.haml setlocal cursorcolumn
     au BufRead,BufNewFile *.md,*.markdown set ft=markdown
     au BufNewFile,BufRead,BufWrite *.md,*.markdown syntax match Comment /\%^---\_.\{-}---$/
+    au BufRead,BufNewFile *.sh set ft=sh
     au BufRead,BufNewFile *.html.erb set ft=html.eruby
     au BufRead,BufNewFile *etc/nginx/* set ft=nginx
     au BufRead,BufNewFile *.ru set ft=ruby
@@ -36,11 +37,20 @@ if has('autocmd')
     au BufEnter *.sass setlocal cursorcolumn
   augroup END
 
+  au BufRead,BufNewFile,BufWrite *
+        \ if getline(1) =~ "#!/bin/bash" |
+        \   set ft=sh |
+        \ endif
+
+  au BufRead,BufNewFile,BufWrite *
+        \ if getline(1) =~ "#!/bin/zsh" |
+        \   set ft=zsh |
+        \ endif
 
   " When editing a file, always jump to the last known cursor position.
   " Don't do it when the position is invalid or when inside an event handler
   " (happens when dropping a file on gvim).
-  autocmd BufReadPost *
+  au BufReadPost *
         \ if line("'\"") > 0 && line("'\"") <= line("$") |
         \   exe "normal g`\"" |
         \ endi
