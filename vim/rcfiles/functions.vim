@@ -1,5 +1,14 @@
 map <leader>sv :call ReloadMyVim()<CR>
 
+if !exists("*LastJekyllPost")
+  function! LastJekyllPost()
+    let last_file = split(globpath('.', '_posts/*.md'), '\n')[-1]
+    exec ":e " . last_file
+  endfunction
+endif
+
+command! -nargs=0 Jpost :call LastJekyllPost()
+
 if !exists("*ReloadMyVim")
   function! ReloadMyVim()
     :source $MYVIMRC
