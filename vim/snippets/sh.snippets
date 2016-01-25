@@ -1,0 +1,11 @@
+snippet colors
+	GREEN='\033[0;32m'
+	RED='\033[0;31m'
+	RESET_COLOR='\033[0m'
+	
+	echo -e "${GREEN}Yay!${RESET_COLOR}"
+	echo -e "${RED}Error!${RESET_COLOR}"
+snippet green
+	echo -e "${GREEN}${1}${RESET_COLOR}"
+snippet red
+	echo -e "${RED}${1}${RESET_COLOR}"

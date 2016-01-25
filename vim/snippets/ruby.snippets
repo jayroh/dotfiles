@@ -43,8 +43,8 @@ snippet gem
 snippet shelp
 	require 'spec_helper'
 snippet desc
-	describe ${1} do
-		${2}
+	RSpec.describe ${1}, ${2:type: :model} do
+		${3}
 	end
 snippet cont
 	context '${1}' do
