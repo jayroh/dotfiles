@@ -60,3 +60,11 @@ ssh_restore() {
 
 command -v brew >/dev/null && do_brew
 command -v rbenv >/dev/null && do_rbenv
+
+# added by travis gem
+[ -f /Users/joel/.travis/travis.sh ] && source /Users/joel/.travis/travis.sh
+
+# added per instructions from awscli install
+source /usr/local/share/zsh/site-functions/_aws
+eval `boot2docker shellinit 2>/dev/null`
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
