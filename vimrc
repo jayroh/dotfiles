@@ -9,6 +9,7 @@ set winheight=20
 set winminheight=20
 set winheight=999
 set nocompatible
+set nojoinspaces
 set incsearch
 set hlsearch
 set cursorline
@@ -59,6 +60,7 @@ Bundle 'dockyard/vim-easydir'
 Bundle 'mattn/webapi-vim'
 Bundle 'christoomey/vim-tmux-navigator'
 Bundle 'christoomey/vim-titlecase'
+Bundle 'christoomey/vim-rfactory'
 Bundle 'christoomey/vim-quicklink'
 Bundle 'thoughtbot/vim-rspec'
 Bundle 'regedarek/ZoomWin.git'
@@ -120,9 +122,10 @@ let mapleader = ","
 let g:Powerline_symbols = 'fancy'
 let g:markdown_fenced_languages = ['javascript', 'ruby', 'sh', 'yaml', 'javascript', 'html', 'vim', 'coffee', 'json', 'diff']
 
-nmap <leader>ct :!ctags -R --exclude=.git --exclude=log * $(gem env gemdir)<CR>
-nmap <leader>z :ZoomWin<CR>
-nnoremap <F5> :set nonumber!<CR>
+map <leader>pre :w<cr>:silent! !open -a MacDown % > /dev/null &<cr>:redraw!<cr>
+nmap <leader>ct :!ctags -r --exclude=.git --exclude=log * $(gem env gemdir)<cr>
+nmap <leader>z :zoomwin<cr>
+nnoremap <F5> :set nonumber!<cr>
 
 scriptencoding utf-8
 filetype plugin indent on
@@ -221,6 +224,8 @@ let g:syntastic_ruby_checkers = ['mri', 'rubocop']
 let g:syntastic_html_tidy_ignore_errors = [ 'trimming empty <span>', 'possibly useless use of a variable in void context' ]
 let g:syntastic_quiet_messages = { "regex": 'possibly useless use of a variable in void context' }
 
+" FactoryGirl - https://github.com/christoomey/vim-rfactory
+map <leader>fact :RVfactory<CR>
 
 source $HOME/.vim/rcfiles/autocmd.vim
 source $HOME/.vim/rcfiles/functions.vim
