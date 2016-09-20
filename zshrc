@@ -5,8 +5,9 @@ plugins=(zsh-syntax-highlighting)
 
 export PATH=./bin:/usr/local/share/npm/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin
 export PATH="/usr/local/bin:$PATH"
+export PATH="/usr/local/opt/go/libexec/bin:$PATH"
 export PATH="$HOME/.rbenv/bin:$PATH"
-export PATH="/opt/homebrew-cask/Caskroom/postgres/latest/Postgres.app/Contents/MacOS/bin:$PATH"
+export PATH="/Applications/Postgres.app/Contents/Versions/latest/bin:$PATH"
 
 [[ -f $HOME/.rubymotion ]] && source $HOME/.rubymotion
 source $ZSH/oh-my-zsh.sh
@@ -61,10 +62,12 @@ ssh_restore() {
 command -v brew >/dev/null && do_brew
 command -v rbenv >/dev/null && do_rbenv
 
+# nvm
+export NVM_DIR=~/.nvm
+. $(brew --prefix nvm)/nvm.sh
+
 # added by travis gem
 [ -f /Users/joel/.travis/travis.sh ] && source /Users/joel/.travis/travis.sh
 
 # added per instructions from awscli install
 source /usr/local/share/zsh/site-functions/_aws
-eval `boot2docker shellinit 2>/dev/null`
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
