@@ -1,3 +1,4 @@
+--fail-fast
 --color
 --order random
 --profile 5
