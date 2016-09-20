@@ -9,6 +9,7 @@
 	co = checkout
 	continue = rebase --continue
 	create = !grb create
+	d = "!git diff --cached --color | /usr/local/Cellar/node/5.5.0/bin/diff-so-fancy | less"
 	del = !grb rm
 	dev = checkout development
 	file = log --all --graph\n--pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'\n--abbrev-commit --date=relative
@@ -24,6 +25,7 @@
 	plul = pull
 	pr = !hub pull-request
 	praise = blame
+	prep = "!git checkout master && git pull origin master && git checkout - && git rebase master"
 	puhs = push
 	pul = pull
 	pus = push
@@ -35,6 +37,7 @@
 	stats = status
 	stauts = status
 	sta = checkout staging
+	unstage = reset
 [color]
 	diff = auto
 	ui = auto
@@ -55,3 +58,5 @@
 	rebase = true
 [heroku]
 	account = joel
+[diff]
+	compactionHeuristic = true
