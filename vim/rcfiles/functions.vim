@@ -155,6 +155,15 @@ function! InMotion()
   return g:motionproj != ""
 endfunction
 
+fun! SetupCommandAlias(from, to)
+  exec 'cnoreabbrev <expr> '.a:from
+        \ .' ((getcmdtype() is# ":" && getcmdline() is# "'.a:from.'")'
+        \ .'? ("'.a:to.'") : ("'.a:from.'"))'
+endfun
+
+call SetupCommandAlias("W","w")
+call SetupCommandAlias("E","e")
+
 " run the most recent command in the other pane
 map <leader>ll :call Send_to_Tmux("!!\n\n")<CR>
 map <leader>bc :call Send_to_Tmux("rubocop\n")<CR>

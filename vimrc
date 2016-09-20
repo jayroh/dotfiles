@@ -16,7 +16,6 @@ set cursorline
 set showmatch
 set smarttab
 set scrolloff=3
-set pastetoggle=<F6>
 set colorcolumn=80
 set encoding=utf-8
 set relativenumber
@@ -59,7 +58,6 @@ Bundle 'ctrlpvim/ctrlp.vim'
 Bundle 'dockyard/vim-easydir'
 Bundle 'mattn/webapi-vim'
 Bundle 'christoomey/vim-tmux-navigator'
-Bundle 'christoomey/vim-titlecase'
 Bundle 'christoomey/vim-rfactory'
 Bundle 'christoomey/vim-quicklink'
 Bundle 'thoughtbot/vim-rspec'
@@ -121,17 +119,19 @@ let g:Powerline_symbols = 'fancy'
 let g:markdown_fenced_languages = ['javascript', 'ruby', 'sh', 'yaml', 'javascript', 'html', 'vim', 'coffee', 'json', 'diff']
 
 map <leader>pre :w<cr>:silent! !open -a MacDown % > /dev/null &<cr>:redraw!<cr>
-nmap <leader>ct :!ctags -r --exclude=.git --exclude=log * $(gem env gemdir)<cr>
 nmap <leader>z :zoomwin<cr>
-nnoremap <F5> :set nonumber!<cr>
+nmap <leader>pa :set nonumber! norelativenumber! nopaste!<cr>
 
 scriptencoding utf-8
 filetype plugin indent on
 
+" Exuberant Ctags
+nmap <leader>ct :!ctags -R --exclude=.git --exclude=log<cr>
+set tags=./tags;
+set complete=.,t
+
 " Load matchit (% to bounce from do to end, etc.)
 runtime! macros/matchit.vim
-
-set tags=./tags;
 
 " Turn off rails bits of statusbar
 let g:rails_statusline=0
@@ -221,6 +221,12 @@ let g:syntastic_html_tidy_exec = 'tidy5'
 let g:syntastic_ruby_checkers = ['mri', 'rubocop']
 let g:syntastic_html_tidy_ignore_errors = [ 'trimming empty <span>', 'possibly useless use of a variable in void context' ]
 let g:syntastic_quiet_messages = { "regex": 'possibly useless use of a variable in void context' }
+
+" Fugitive
+" command Gprettylog :Git! log --all --graph --decorate --oneline --simplify-by-decoration
+" command Greview :Git! diff --staged
+" nnoremap <leader>gr :Greview<cr>
+" nnoremap <leader>glog :Gprettylog<cr>
 
 " FactoryGirl - https://github.com/christoomey/vim-rfactory
 map <leader>fact :RVfactory<CR>
