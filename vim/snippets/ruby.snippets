@@ -40,20 +40,30 @@ snippet pry
 snippet gem
 	gem '${1}'
 # rspec
+snippet rhelp
+	# frozen_string_literal: true
+
+	require 'rails_helper'
 snippet shelp
+	# frozen_string_literal: true
+
 	require 'spec_helper'
 snippet desc
 	RSpec.describe ${1}, ${2:type: :model} do
 		${3}
 	end
+snippet let
+	let(:${1}) { ${2} }
 snippet cont
 	context '${1}' do
 		${2}
 	end
 snippet feat
-	feature '${1}' do
-		scenario '${2}' do
-			${3}
+	RSpec.feature '${1}', type: :feature do
+		context '${2}' do
+			scenario '${3}' do
+				${4}
+			end
 		end
 	end
 snippet scen
@@ -62,3 +72,35 @@ snippet scen
 	end
 snippet open
 	save_and_open_page
+snippet request
+	require 'rails_helper'
+	
+	RSpec.describe '${1}', type: :request do
+	  describe 'GET /path' do
+	    let(:user){ create(:user) }
+	
+	    it 'is successful' do
+	      #  allow_any_instance_of(ApplicationController)
+	      #    .to receive(:current_user)
+	      #    .and_return(user)
+	
+	      payload = {
+	        resource: {
+	          name: 'joel',
+	        }
+	      }
+	
+	      get '/path', payload, {}
+	
+	      expect(response).to have_http_status(200)
+	    end
+	  end
+	end
+snippet fro
+	# frozen_string_literal: true
+snippet featobj
+	module FeatureObject
+		class ${1} < FeatureObject::Base
+
+		end
+	end
