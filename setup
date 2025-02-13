@@ -1,7 +1,10 @@
 #!/bin/bash
 
+
+ZSH_LOCATION=`which zsh`
+
 # LINUX ***********************************************************************
-if [ `uname -s` == "Linux" ]; then
+if [[ `uname -s` == "Linux" && ! " $@ " =~ " --skip-apt " ]]; then
   # install dependencies
   while IFS= read -r package
   do
@@ -12,13 +15,11 @@ if [ `uname -s` == "Linux" ]; then
   if [ -x "$(command -v snap)" ]; then
     < Snapfile.classic xargs sudo snap install --classic
   fi
-
-  ZSH_LOCATION=`which zsh`
 # MAC *************************************************************************
-else
-  if [ "$(uname -m 2> /dev/null)" == "arm64" ]; then
+elif [[ `uname -s` != "Linux" ]]; then
+  if [ "$(uname -m 2> /dev/null)" == "arm64" && -f /opt/homebrew/bin/zsh ]; then
     ZSH_LOCATION="/opt/homebrew/bin/zsh"
-  else
+  elif [ -f /usr/local/bin/zsh ]; then
     ZSH_LOCATION="/usr/local/bin/zsh"
   fi
 
@@ -51,6 +52,8 @@ tic -x ~/.dotfiles/misc/xterm-256color-italic.terminfo
 [ -d "$HOME/.asdf" ] || git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.10.2
 [ $SHELL == "/bin/bash" ] && source ~/.bashrc
 [ $SHELL == "$ZSH_LOCATION" ] && source ~/.zshrc
+
+rcup -x setup -t ruby -t bash -t node -t ansible -t git -t nvim -t rspec -t tmux -t zsh
 
 echo "Installing all needed asdf plugins ..."
 asdf plugin add golang
@@ -126,8 +129,6 @@ if [ ! -e ~/.config/nvim/autoload/plug.vim ]; then
   curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 fi
-
-rcup -x setup -t ruby -t bash -t node -t ansible -t git -t nvim -t rspec -t tmux -t zsh
 
 echo "Setup complete."
 echo ""
