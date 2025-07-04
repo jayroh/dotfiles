@@ -52,3 +52,4 @@ vim.opt.foldenable = false
 
 -- load lazy plugins
 require("config.lazy")
+require("config.keymaps")
