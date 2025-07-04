@@ -1,17 +1,17 @@
-set termguicolors
-set colorcolumn=80                " Highlight the 80 character column
-set relativenumber                " Use relative line numbers
-set number                        " Also show the current line number
-set cursorline                    " Highlight the current line
+vim.opt.termguicolors = true
+vim.opt.colorcolumn = "80"        -- Highlight the 80 character column
+vim.opt.relativenumber = true     -- Use relative line numbers
+vim.opt.number = true             -- Also show the current line number
+vim.opt.cursorline = true         -- Highlight the current line
 
-" Display extra whitespace
-set list listchars=tab:»·,trail:·,nbsp:·
+-- Display extra whitespace
+vim.opt.list = true
+vim.opt.listchars = "tab:»·,trail:·,nbsp:·"
 
-" Configure netrw style
-let g:netrw_liststyle=3
+-- Configure netrw style
+vim.g.netrw_liststyle = 3
 
-" Configure lualine
-lua << END
+-- Configure lualine
 require('lualine').setup {
   options = {
     icons_enabled = true,
@@ -72,7 +72,6 @@ require('lualine').setup {
   inactive_winbar = {},
   extensions = {}
 }
-END
 
-" Use a different indent line character
-let g:indentLine_char = '⦙'
+-- Use a different indent line character
+vim.g.indentLine_char = '⦙'

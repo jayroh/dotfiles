@@ -1,6 +1,5 @@
-set completeopt=menu,menuone,noselect
+vim.opt.completeopt = { "menu", "menuone", "noselect" }
 
-lua << EOF
 local cmp = require'cmp'
 
 cmp.setup({
@@ -54,4 +53,3 @@ cmp.setup.cmdline(':', {
     { name = 'cmdline' }
   })
 })
-EOF

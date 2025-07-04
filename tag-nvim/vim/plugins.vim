@@ -29,6 +29,7 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'plasticboy/vim-markdown'
 Plug 'junegunn/goyo.vim'
 Plug 'reedes/vim-pencil'
+Plug 'chenxin-yan/footnote.nvim'
 
 " Plumbing to make everything nicer
 " ---------------------------------

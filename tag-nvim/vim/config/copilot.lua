@@ -1,6 +1,4 @@
-lua << EOF
 local map = vim.api.nvim_set_keymap
-
 local opts = { noremap = true, silent = true, expr = true }
 
 map("i", "<C-j>", 'copilot#Accept("<CR>")', opts)
@@ -19,4 +17,3 @@ vim.g.copilot_filetypes = {
   vim        = true,
   yaml       = true,
 }
-EOF

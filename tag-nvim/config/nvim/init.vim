@@ -3,10 +3,10 @@
 " https://github.com/christoomey/dotfiles
 
 function! s:SourceConfigFilesIn(directory)
-  let directory_splat = '~/.vim/' . a:directory . '/*.vim'
+  let directory_splat = '~/.vim/' . a:directory . '/*.lua'
   for config_file in split(glob(directory_splat), '\n')
     if filereadable(config_file)
-      execute 'source' config_file
+      execute 'luafile' config_file
     endif
   endfor
 endfunction
@@ -256,4 +256,6 @@ lua << EOF
     on_save_pattern = { '*.html', '*.html.erb', '*.js', '*.jsx', '*.tsx', '*.php' }, -- The file patterns to watch and sort.
     node_path = 'node',
   })
+
+  require('footnote').setup()
 EOF
