@@ -1,0 +1,54 @@
+-- allow for local, per-project vimrc configuration
+vim.opt.exrc = true
+
+-- Make sure to setup `mapleader` and `maplocalleader` before
+-- loading lazy.nvim so that mappings are correct.
+-- This is also a good place to setup other settings (vim.opt)
+vim.g.mapleader = ","
+vim.g.maplocalleader = "\\"
+
+-- Map 'ctrl-s' to save buffer
+-- for normal mode ...
+vim.keymap.set('n', '<C-S>', ':w<cr>', { noremap = true })
+-- for insert mode ...
+vim.keymap.set('i', '<C-S>', '<Esc>:w<cr>i', { noremap = true })
+
+-- Add hyphen, `-`, to iskeyword (see `:help iskeyword` for more) so that the
+-- hyphen is not used as a word separator. For example, by default if we had a
+-- variable named `is-keyword` and the cursor was somewhere in "keyword",
+-- running `diw` would only delete "keyword", and not "is-keyword". By updating
+-- this setting all of "is-keyword" would be considered one word.
+--
+-- This will help with autocomplete as well. Trying to auto complete "is" by
+-- default would do nothing, but now it will try to autocomplete "is-keyword".
+-- This is super helpful for when you are editing (S)CSS selectors.
+vim.opt.iskeyword:append('-')
+
+-- vim-plug loads all the filetype, syntax and colorscheme files, so turn them on
+-- _after_ loading plugins.
+vim.cmd('filetype plugin indent on')
+vim.opt.sw = 4
+vim.opt.ts = 4
+vim.cmd('syntax enable')
+vim.opt.background = 'dark'
+vim.cmd('silent! colorscheme dracula')
+
+-- vim-textobj-rubyblock requires that the matchit.vim plugin is enabled.
+vim.cmd('runtime macros/matchit.vim')
+
+vim.cmd('highlight Comment cterm=italic gui=italic')
+
+-- config ruby host
+vim.g.ruby_host_prog = '~/.asdf/shims/neovim-ruby-host'
+
+-- snippet location
+vim.g.vsnip_snippet_dir = '~/.dotfiles/tag-nvim/snippets'
+
+-- ignore perl
+vim.g.loaded_perl_provider = 0
+
+-- disable automatic folding
+vim.opt.foldenable = false
+
+-- load lazy plugins
+require("config.lazy")
