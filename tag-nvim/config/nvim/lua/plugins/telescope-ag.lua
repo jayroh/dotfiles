@@ -1,6 +1,9 @@
 return {
 	"kelly-lin/telescope-ag",
-	dependencies = { "nvim-telescope/telescope.nvim" },
+	dependencies = { 
+		"nvim-telescope/telescope.nvim",
+		"nvim-treesitter/nvim-treesitter",
+	},
 	keys = {
         {
             "<leader>ag",

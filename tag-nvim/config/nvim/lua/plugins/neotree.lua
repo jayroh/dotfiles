@@ -13,23 +13,9 @@ return {
   opts = {
     -- fill any relevant options here
   },
-  config = function()
-    require("neo-tree").setup({
-  	  -- your other config options here
-    })
-
-	-- Custom keymaps
-
-	-- ***************************
-	-- Toggle Neotree w/Filesystem
-	vim.keymap.set('n', '<leader>nt', function()
-		require("neo-tree.command").execute({ toggle = true, source = "filesystem" })
-	end, { desc = "Toggle Neo-tree filesystem" })
-
-	-- ***************************
-	-- Toggle Neotree w/Buffers
-	vim.keymap.set('n', '<leader>nb', function()
-		require("neo-tree.command").execute({ toggle = true, source = "buffers" })
-	end, { desc = "Toggle Neo-tree buffers" })
-  end,
+  keys = {
+    { "<leader>nt", "<cmd>Neotree toggle filesystem<cr>", desc = "Toggle Neo-tree filesystem" },
+    { "<leader>nb", "<cmd>Neotree toggle buffers<cr>", desc = "Toggle Neo-tree buffers" },
+    { "<leader>be", "<cmd>Neotree toggle buffers<cr>", desc = "Toggle Neo-tree buffers" },
+  },
 }

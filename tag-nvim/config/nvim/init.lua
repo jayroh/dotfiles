@@ -30,16 +30,17 @@ vim.cmd('filetype plugin indent on')
 vim.opt.sw = 4
 vim.opt.ts = 4
 vim.cmd('syntax enable')
-vim.opt.background = 'dark'
-vim.cmd('silent! colorscheme dracula')
 
 -- vim-textobj-rubyblock requires that the matchit.vim plugin is enabled.
 vim.cmd('runtime macros/matchit.vim')
 
 vim.cmd('highlight Comment cterm=italic gui=italic')
 
+-- config python host
+vim.g.python3_host_prog = vim.fn.exepath('python3')
+
 -- config ruby host
-vim.g.ruby_host_prog = '~/.asdf/shims/neovim-ruby-host'
+vim.g.ruby_host_prog = vim.fn.exepath('neovim-ruby-host')
 
 -- snippet location
 vim.g.vsnip_snippet_dir = '~/.dotfiles/tag-nvim/snippets'
