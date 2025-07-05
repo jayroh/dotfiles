@@ -1,6 +1,10 @@
 -- allow for local, per-project vimrc configuration
 vim.opt.exrc = true
 
+-- line number
+vim.opt.number = true         -- Show absolute line numbers
+vim.opt.relativenumber = true -- Show relative line numbers
+
 -- Make sure to setup `mapleader` and `maplocalleader` before
 -- loading lazy.nvim so that mappings are correct.
 -- This is also a good place to setup other settings (vim.opt)
