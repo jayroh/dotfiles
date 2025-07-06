@@ -10,7 +10,12 @@ return {
 		bigfile = { enabled = true },
 		dashboard = { enabled = false },
 		explorer = { enabled = false },
-		indent = { enabled = true },
+		indent = {
+			enabled = true,
+			animate = {
+				duration = 0,
+			},
+		},
 		input = { enabled = true },
 		lazygit = { enabled = true },
 		picker = { enabled = false },
