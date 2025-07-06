@@ -11,15 +11,6 @@ vim.opt.relativenumber = true -- Show relative line numbers
 vim.g.mapleader = ","
 vim.g.maplocalleader = "\\"
 
--- Map 'ctrl-s' to save buffer
--- for normal mode ...
-vim.keymap.set('n', '<C-S>', ':w<cr>', { noremap = true })
--- for insert mode ...
-vim.keymap.set('i', '<C-S>', '<Esc>:w<cr>i', { noremap = true })
-
--- switch to last buffer when in normal mode
-vim.keymap.set('n', '<leader>,', '<C-^>', { desc = 'Switch to last buffer' })
-
 -- Add hyphen, `-`, to iskeyword (see `:help iskeyword` for more) so that the
 -- hyphen is not used as a word separator. For example, by default if we had a
 -- variable named `is-keyword` and the cursor was somewhere in "keyword",
@@ -57,12 +48,6 @@ vim.g.loaded_perl_provider = 0
 
 -- disable automatic folding
 vim.opt.foldenable = false
-
--- reload all of neovim
-vim.keymap.set('n', '<leader>rl', function()
-	dofile(vim.env.MYVIMRC)
-	vim.notify('Nvim config reloaded!')
-end, { desc = 'Reload Neovim config' })
 
 -- load lazy plugins
 require("config.lazy")
