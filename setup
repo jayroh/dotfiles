@@ -53,8 +53,6 @@ tic -x ~/.dotfiles/misc/xterm-256color-italic.terminfo
 [ $SHELL == "/bin/bash" ] && source ~/.bashrc
 [ $SHELL == "$ZSH_LOCATION" ] && source ~/.zshrc
 
-rcup -x setup -t ruby -t bash -t node -t ansible -t git -t nvim -t rspec -t tmux -t zsh
-
 echo "Installing all needed asdf plugins ..."
 asdf plugin add golang
 asdf plugin add nodejs
@@ -128,12 +126,7 @@ elif [ -x "$(command -v python)" ]; then
   fi
 fi
 
-# install plug vim plugin if it's not there already
-if [ ! -e ~/.config/nvim/autoload/plug.vim ]; then
-  echo "Installing plug.vim."
-  curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
-    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-fi
+rcup -x setup -t ruby -t bash -t node -t ansible -t git -t nvim -t rspec -t tmux -t zsh
 
 echo "Setup complete."
 echo ""
