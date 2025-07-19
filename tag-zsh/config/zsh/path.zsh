@@ -1,7 +1,6 @@
 [[ -d /usr/lib/jvm/java-8-openjdk-amd64 ]] && export JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64"
 [[ -x /usr/libexec/java_home ]]            && export JAVA_HOME=$(/usr/libexec/java_home)
 [[ -d "$HOME/.nvm" ]]                      && export NVM_DIR="$HOME/.nvm"
-[[ -d "$HOME/.yarn/bin" ]]                 && export PATH="$HOME/.yarn/bin:$PATH"
 
 path=(
 	"/usr/bin"
@@ -17,6 +16,18 @@ path=(
 	"$HOME/.local/bin"
 	"/usr/local/bin"
 	"$JAVA_HOME/jre/bin"
+)
+
+YARN_BIN="$HOME/.yarn/bin"
+[[ -d  $YARN_BIN ]] && path=(
+	$YARN_BIN
+	$path
+)
+
+BUN_BIN="$HOME/.bun/bin"
+[[ -d  $BUN_BIN ]] && path=(
+	$BUN_BIN
+	$path
 )
 
 QT_BIN="$HOME/Qt5.5.1/5.5/clang_64/bin"
