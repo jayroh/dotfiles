@@ -1,20 +1,3 @@
-# use the right config for lazygit
-lazygit() {
-    local config_file=""
-    
-    if [[ -f "$HOME/.config/lazygit/config.yml" ]]; then
-        config_file="$HOME/.config/lazygit/config.yml"
-    elif [[ -f "$HOME/Library/Application Support/lazygit/config.yml" ]]; then
-        config_file="$HOME/Library/Application Support/lazygit/config.yml"
-    fi
-    
-    if [[ -n "$config_file" ]]; then
-        command lazygit --use-config-file="$config_file" "$@"
-    else
-        command lazygit "$@"
-    fi
-}
-
 # fuzzy find in history
 fh() {
   echo "use CTRL-r instead. It's built into fzf"
