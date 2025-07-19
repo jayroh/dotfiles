@@ -74,15 +74,21 @@ echo "📝 Installing neovim ..."
 asdf install neovim latest
 asdf global neovim latest
 
+echo "Installing lazygit ..."
+asdf install lazygit latest
+asdf global lazygit latest
+
 echo "Installing bun ..."
 asdf install bun latest
 asdf global bun latest
 
 echo "⚠️  Now install other languages with 'asdf install [lang] latest'..."
 
-# Install vim-plug
-[ -f ~/.local/share/nvim/site/autoload/plug.vim ] || curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
-  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+# Bun stuff
+
+# Install the lazygit bunnai thing
+bun install -g @chhoumann/bunnai
+echo "⚠️  Now set up bunnai with 'bunnai config' ..."
 
 # Python stuff
 
