@@ -126,7 +126,7 @@ elif [ -x "$(command -v python)" ]; then
   fi
 fi
 
-rcup -x setup -t ruby -t bash -t node -t ansible -t git -t nvim -t rspec -t tmux -t zsh
+rcup -x setup -t ruby -t bash -t node -t ansible -t git -t nvim -t rspec -t tmux -t zsh -t lazygit
 
 echo "Setup complete."
 echo ""
