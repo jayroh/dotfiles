@@ -57,9 +57,6 @@ brew "heroku"
 tap "thoughtbot/formulae"
 brew "rcm"
 
-tap "oven-sh/bun"
-brew bun
-
 tap "homebrew/cask"
 cask_args appdir: "/Applications"
 cask "adoptopenjdk"
