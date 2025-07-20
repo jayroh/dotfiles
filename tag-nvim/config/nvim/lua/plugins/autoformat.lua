@@ -14,7 +14,7 @@ return {
 					command = vim.fn.expand("~/.asdf/shims/rubocop"),
 				},
 				stylua = {
-					args = { "--stdin-filepath", "$FILENAME", "-" },
+					command = vim.fn.expand("~/.asdf/shims/stylua"),
 				},
 			},
 			format_on_save = {
