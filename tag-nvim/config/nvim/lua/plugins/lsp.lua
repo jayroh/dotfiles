@@ -17,7 +17,9 @@ return {
 					},
 				},
 			},
-			rubocop = {},
+			rubocop = {
+				cmd = { vim.fn.expand("~/.asdf/shims/rubocop"), "--lsp" },
+			},
 			solargraph = {},
 			docker_compose_language_service = {},
 			dockerls = {},

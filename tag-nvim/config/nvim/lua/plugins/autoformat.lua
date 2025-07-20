@@ -9,6 +9,14 @@ return {
 				lua = { "stylua" },
 				ruby = { "rubocop" },
 			},
+			formatters = {
+				rubocop = {
+					command = vim.fn.expand("~/.asdf/shims/rubocop"),
+				},
+				stylua = {
+					args = { "--stdin-filepath", "$FILENAME", "-" },
+				},
+			},
 			format_on_save = {
 				timeout_ms = 5000,
 				lsp_format = "fallback",
