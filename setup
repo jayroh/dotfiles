@@ -48,41 +48,8 @@ tic -x ~/.dotfiles/misc/xterm-256color-italic.terminfo
 [ -d "$HOME/.zsh" ] || mkdir -p "$HOME/.zsh"
 [ -d "$HOME/.zsh/pure" ] || git clone https://github.com/sindresorhus/pure.git "$HOME/.zsh/pure"
 
-# Install asdf
-[ -d "$HOME/.asdf" ] || git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.10.2
-[ $SHELL == "/bin/bash" ] && source ~/.bashrc
-[ $SHELL == "$ZSH_LOCATION" ] && source ~/.zshrc
-
-echo "Installing all needed asdf plugins ..."
-asdf plugin add golang
-asdf plugin add nodejs
-asdf plugin add python
-asdf plugin add ruby
-asdf plugin add rust
-asdf plugin add neovim
-asdf plugin add bun
-
-echo "💎 Installing ruby ..."
-asdf install ruby latest
-asdf global ruby latest
-
-echo "☕ Installing nodejs ..."
-asdf install nodejs latest
-asdf global nodejs latest
-
-echo "📝 Installing neovim ..."
-asdf install neovim latest
-asdf global neovim latest
-
-echo "Installing lazygit ..."
-asdf install lazygit latest
-asdf global lazygit latest
-
-echo "Installing bun ..."
-asdf install bun latest
-asdf global bun latest
-
-echo "⚠️  Now install other languages with 'asdf install [lang] latest'..."
+# Install and configure asdf
+./setup-asdf
 
 # Bun stuff
 
