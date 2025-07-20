@@ -1,9 +1,6 @@
 -- allow for local, per-project vimrc configuration
 vim.opt.exrc = true
 
--- copy selected text when visual mode
-vim.keymap.set('v', 'cp', ':w !pbcopy<CR><CR>', { noremap = true, silent = true })
-
 -- line number
 vim.opt.number = true         -- Show absolute line numbers
 vim.opt.relativenumber = true -- Show relative line numbers
