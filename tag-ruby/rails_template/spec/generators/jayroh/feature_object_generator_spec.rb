@@ -13,19 +13,21 @@ RSpec.describe Jayroh::FeatureObjectGenerator, type: :generator do
 
     assert_file 'spec/support/feature/home_page.rb'
 
-    expect(destination_root).to(have_structure do
-                                  directory 'spec' do
-                                    directory 'support' do
-                                      directory 'feature' do
-                                        file 'home_page.rb' do
-                                          contains 'module Feature'
-                                          contains 'class HomePage'
-                                          contains 'def step_method_one'
-                                          contains 'def step_method_two'
-                                        end
-                                      end
-                                    end
-                                  end
-                                end)
+    expect(destination_root).to(
+      have_structure do
+        directory 'spec' do
+          directory 'support' do
+            directory 'feature' do
+              file 'home_page.rb' do
+                contains 'module Feature'
+                contains 'class HomePage'
+                contains 'def step_method_one'
+                contains 'def step_method_two'
+              end
+            end
+          end
+        end
+      end
+    )
   end
 end
