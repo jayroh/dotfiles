@@ -51,6 +51,7 @@ vim.opt.foldenable = false
 
 vim.opt.colorcolumn = "100"
 
--- load lazy plugins
+-- load configs
 require("config.lazy")
 require("config.keymaps")
+require("config.tmux")
