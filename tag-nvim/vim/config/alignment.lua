@@ -1,1 +1,0 @@
-vim.keymap.set('v', '<leader>eq', ':Tabularize /=<CR>', { noremap = true })
