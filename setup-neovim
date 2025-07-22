@@ -1,0 +1,51 @@
+#!/bin/bash
+
+# Ruby!
+
+for version in $(asdf list ruby | awk '{print $1}'); do
+  echo "Installing neovim in Ruby version: $version"
+  asdf shell ruby $version
+  asdf exec gem install neovim
+done
+
+# Python stuff
+
+## Python 3
+if [ -x "$(command -v python3)" ]; then
+  # Test if the neovim pip3 module is installed
+  python3 -c "import neovim" >& /dev/null
+
+  # If not, install it
+  if [ "${?}" == "1" ]; then
+    # If this doesn't work, see:
+    # http://stackoverflow.com/questions/20082935/how-to-install-pip-for-python3-on-mac-os-x
+    echo "Installing NeoVim pip3 module."
+    command -v pip3 && pip3 install neovim pynvim
+  fi
+
+## Python 2
+elif [ -x "$(command -v python2)" ]; then
+  # Test if the neovim pip2 module is installed
+  python2 -c "import neovim" >& /dev/null
+
+  # If not, install it
+  if [ "${?}" == "1" ]; then
+    # If this doesn't work, see:
+    # http://stackoverflow.com/questions/20082935/how-to-install-pip-for-python3-on-mac-os-x
+    echo "Installing NeoVim pip2 module."
+    command -v pip2 && pip2 install neovim pynvim
+  fi
+
+## Vanilla Python
+elif [ -x "$(command -v python)" ]; then
+  # Test if the neovim pip2 module is installed
+  python -c "import neovim" >& /dev/null
+
+  # If not, install it
+  if [ "${?}" == "1" ]; then
+    # If this doesn't work, see:
+    # http://stackoverflow.com/questions/20082935/how-to-install-pip-for-python3-on-mac-os-x
+    echo "Installing NeoVim pip module."
+    command -v pip && pip install neovim pynvim
+  fi
+fi
