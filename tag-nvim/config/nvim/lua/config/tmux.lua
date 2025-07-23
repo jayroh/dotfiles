@@ -11,9 +11,9 @@ end, { desc = "Open tmux pane to the right in current directory" })
 -- Convert vertical panes to horizontal layout
 vim.keymap.set("n", "<leader>tv", function()
 	vim.fn.system("tmux select-layout main-horizontal")
-end, { desc = "Convert to horizontal pane layout" })
+end, { desc = "Convert to vertical pane layout" })
 
 -- Convert horizontal panes to vertical layout
 vim.keymap.set("n", "<leader>th", function()
 	vim.fn.system("tmux select-layout main-vertical")
-end, { desc = "Convert to vertical pane layout" })
+end, { desc = "Convert to horizontal pane layout" })
