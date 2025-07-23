@@ -57,6 +57,9 @@ echo "⚠️  Now set up bunnai with 'bunnai config' ..."
 # Install dependencies for neovim
 ./setup-neovim
 
+# Install tpm (tmux plugin manager)
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+
 rcup -x setup -t ruby -t bash -t node -t ansible -t git -t nvim -t rspec -t tmux -t zsh -t lazygit
 
 echo "Setup complete."
