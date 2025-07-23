@@ -20,6 +20,6 @@ vim.keymap.set("n", "<leader>rl", function()
 end, { desc = "Reload Neovim config" })
 
 -- Get rid of some old muscle memory
-vim.keymap.set("n", "<leader>rn", function()
+vim.keymap.set("n", "<leader>ro", function()
 	vim.notify("Use T J instead!", vim.log.levels.INFO)
 end, { desc = "Suggest T J" })
