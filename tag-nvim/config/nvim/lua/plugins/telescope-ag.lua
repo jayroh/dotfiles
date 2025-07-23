@@ -8,9 +8,7 @@ return {
 		{
 			"<leader>ag",
 			function()
-				require("telescope.builtin").live_grep({
-					default_text = vim.fn.expand("<cword>"),
-				})
+				require("telescope.builtin").live_grep()
 			end,
 			desc = "Live grep search",
 		},
