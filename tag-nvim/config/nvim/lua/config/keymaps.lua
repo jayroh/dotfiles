@@ -22,4 +22,5 @@ end, { desc = "Reload Neovim config" })
 -- Get rid of some old muscle memory
 vim.keymap.set("n", "<leader>ro", function()
 	vim.notify("Use T J instead!", vim.log.levels.INFO)
+	os.execute("tmux display-message 'Use T J instead!'")
 end, { desc = "Suggest T J" })
