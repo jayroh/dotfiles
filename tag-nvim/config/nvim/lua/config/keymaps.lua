@@ -18,3 +18,8 @@ vim.keymap.set("n", "<leader>rl", function()
 	dofile(vim.env.MYVIMRC)
 	vim.notify("Nvim config reloaded!")
 end, { desc = "Reload Neovim config" })
+
+-- Get rid of some old muscle memory
+vim.keymap.set("n", "<leader>rn", function()
+	vim.notify("Use T J instead!", vim.log.levels.INFO)
+end, { desc = "Suggest T J" })
