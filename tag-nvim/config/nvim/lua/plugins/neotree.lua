@@ -10,6 +10,5 @@ return {
 	keys = {
 		{ "<leader>nt", "<cmd>Neotree toggle filesystem<cr>", desc = "Toggle Neo-tree filesystem" },
 		{ "<leader>nb", "<cmd>Neotree toggle buffers<cr>", desc = "Toggle Neo-tree buffers" },
-		{ "<leader>be", "<cmd>Neotree toggle buffers<cr>", desc = "Toggle Neo-tree buffers" },
 	},
 }
