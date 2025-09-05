@@ -1,12 +1,14 @@
 return {
-	"EL-MASTOR/bufferlist.nvim",
-	lazy = true,
-	keys = { { "<Leader>be", ":BufferList<CR>", desc = "Open bufferlist" } },
-	dependencies = "nvim-tree/nvim-web-devicons",
-	cmd = "BufferList",
+	"mistweaverco/bafa.nvim",
+	keys = { { "<Leader>be", ":lua require('bafa.ui').toggle()<CR>", desc = "Open buffers" } },
 	opts = {
-		-- your configuration comes here
-		-- or leave it empty to use the default settings
-		-- refer to the configuration section below
+		width = 70,
+		height = 20,
+		title = "Buffers",
+		title_pos = "center",
+		relative = "editor",
+		border = "rounded",
+		style = "minimal",
+		diagnostics = true,
 	},
 }
