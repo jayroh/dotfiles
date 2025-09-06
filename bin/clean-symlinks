@@ -1,0 +1,3 @@
+#!/bin/zsh
+
+find -L ~/.config -type l -exec rm -v -- {} +
