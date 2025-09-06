@@ -40,5 +40,11 @@ return {
 			virtual_text = true,
 			underline = true,
 		})
+
+		-- Override go to definition to open in new tab
+		vim.keymap.set("n", "grd", function()
+			vim.cmd("tab split")
+			vim.lsp.buf.definition()
+		end, { desc = "Go to definition in new tab" })
 	end,
 }
