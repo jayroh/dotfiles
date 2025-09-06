@@ -17,10 +17,8 @@ return {
 					},
 				},
 			},
-			rubocop = {
-				cmd = { vim.fn.expand("~/.asdf/shims/rubocop"), "--lsp" },
-			},
 			solargraph = {},
+			ruby_lsp = {},
 			docker_compose_language_service = {},
 			dockerls = {},
 			tailwindcss = {},
@@ -30,7 +28,7 @@ return {
 		require("mason").setup()
 
 		require("mason-lspconfig").setup({
-			ensure_installed = { "lua_ls", "eslint" },
+			ensure_installed = { "lua_ls", "eslint", "solargraph", "ruby_lsp" },
 		})
 
 		for server, config in pairs(opts.servers) do
