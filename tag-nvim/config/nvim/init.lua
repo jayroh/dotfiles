@@ -51,6 +51,15 @@ vim.opt.foldenable = false
 
 vim.opt.colorcolumn = "100"
 
+-- Command abbreviations for common typos
+vim.cmd("cnoreabbrev E e")
+vim.cmd("cnoreabbrev W w")
+vim.cmd("cnoreabbrev Q q")
+vim.cmd("cnoreabbrev Wq wq")
+vim.cmd("cnoreabbrev WQ wq")
+vim.cmd("cnoreabbrev Wa wa")
+vim.cmd("cnoreabbrev Qa qa")
+
 -- load configs
 require("config.lazy")
 require("config.keymaps")
