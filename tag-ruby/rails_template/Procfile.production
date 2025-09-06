@@ -1,2 +1,1 @@
 web: bin/rails s
-worker: bin/good_job start

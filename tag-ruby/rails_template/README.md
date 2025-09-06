@@ -1,7 +1,11 @@
 ## How to run this
 
 ```sh
-rails new sample_app \
+# install latest rails
+gem install rails
+
+# create new app
+rails new my_new_app \
   --database=postgresql \
   --asset-pipeline=propshaft \
   --skip-action-mailbox \
