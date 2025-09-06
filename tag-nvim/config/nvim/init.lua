@@ -60,6 +60,11 @@ vim.cmd("cnoreabbrev WQ wq")
 vim.cmd("cnoreabbrev Wa wa")
 vim.cmd("cnoreabbrev Qa qa")
 
+-- Tab navigation with <leader>1-9
+for i = 1, 9 do
+	vim.keymap.set("n", "<leader>" .. i, i .. "gt", { desc = "Go to tab " .. i })
+end
+
 -- load configs
 require("config.lazy")
 require("config.keymaps")
