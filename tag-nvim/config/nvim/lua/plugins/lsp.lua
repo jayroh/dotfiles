@@ -22,13 +22,19 @@ return {
 			docker_compose_language_service = {},
 			dockerls = {},
 			tailwindcss = {},
+			stimulus_ls = {
+				filetypes = { "html", "ruby", "eruby" },
+				root_dir = function(fname)
+					return require("lspconfig.util").root_pattern("Gemfile", ".git")(fname)
+				end,
+			},
 		},
 	},
 	config = function(_, opts)
 		require("mason").setup()
 
 		require("mason-lspconfig").setup({
-			ensure_installed = { "lua_ls", "eslint", "solargraph", "ruby_lsp" },
+			ensure_installed = { "lua_ls", "eslint", "solargraph", "ruby_lsp", "stimulus_ls" },
 		})
 
 		for server, config in pairs(opts.servers) do
