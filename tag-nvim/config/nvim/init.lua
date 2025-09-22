@@ -1,5 +1,6 @@
 -- allow for local, per-project vimrc configuration
 vim.opt.exrc = true
+vim.opt.secure = true
 
 -- line number
 vim.opt.number = true -- Show absolute line numbers

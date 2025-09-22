@@ -9,6 +9,7 @@
 .stylelintrc.json
 .trello
 .nvimrc
+.claude
 Release.key
 erd.pdf
 lefthook.yml
@@ -19,3 +20,4 @@ tags
 tmux-client*.log
 tmux-server*.log
 tag-zsh/config/zsh/work.zsh
+.nvim.lua
