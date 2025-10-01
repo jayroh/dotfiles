@@ -66,6 +66,14 @@ for i = 1, 9 do
 	vim.keymap.set("n", "<leader>" .. i, i .. "gt", { desc = "Go to tab " .. i })
 end
 
+-- Filetype overrides
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "htmldjango",
+	callback = function()
+		vim.bo.filetype = "html.liquid"
+	end,
+})
+
 -- load configs
 require("config.lazy")
 require("config.keymaps")
