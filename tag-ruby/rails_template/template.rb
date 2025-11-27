@@ -5,9 +5,6 @@
 # Author URI: https://joeloliveira.com
 # Instructions: $ rails new myapp -m ~/.dotfiles/tag-ruby/rails_template/template.rb
 
-RUBY_VERSION = '3.4.5'
-NODE_VERSION = '24.5.0'
-
 def source_paths
   [__dir__]
 end
@@ -21,38 +18,48 @@ def remove_commented_lines(file)
   end
 end
 
-def set_up_runtimes
-  gsub_file 'Gemfile', /^ruby ".*"$/, "ruby file: '.tool-versions'"
-  run 'asdf plugin update ruby'
-  run 'asdf plugin update nodejs'
-  run 'asdf install'
-end
-
 def create_files
-  create_file '.tool-versions', <<~TOOL_VERSIONS
-    ruby #{RUBY_VERSION}
-    nodejs #{NODE_VERSION}
-  TOOL_VERSIONS
-
   create_file 'Procfile', <<~PROCFILE
-    vite: bin/vite dev
     web: bin/rails s -b 0.0.0.0
+    vite: bin/vite dev
     rubocop: bin/rubocop --start-server --no-detach
   PROCFILE
 end
 
-def add_gems
+def remove_gemfile_groups
+  gemfile_content = File.read('Gemfile')
+  cleaned = gemfile_content.each_line.with_object([]) do |line, result|
+    @inside_group ||= false
+    if line.strip.start_with?('group ') && line.strip.end_with?('do')
+      @inside_group = true
+    elsif @inside_group && line.strip == 'end'
+      @inside_group = false
+    elsif !@inside_group
+      result << line
+    end
+  end.join
+  File.write('Gemfile', cleaned)
+end
+
+def set_up_gemfile
+  insert_into_file 'Gemfile',
+                   "\n\nruby file: '.tool-versions'",
+                   after: 'source "https://rubygems.org"'
+  remove_commented_lines 'Gemfile'
+  remove_gemfile_groups
+
   gem 'faker', require: false
   gem 'friendly_id'
   gem 'image_processing'
-  gem 'nanoid', require: false
-  gem 'redis'
   gem 'vite_rails'
-  gem 'tailwindcss-ruby'
-  gem 'tailwindcss-rails'
+  gem 'solid_errors'
 
   gem_group :development, :test do
+    gem 'brakeman', require: false
+    gem 'bundler-audit', require: false
     gem 'dotenv'
+    gem 'pry-byebug'
+    gem 'pry-rails'
     gem 'rspec-rails'
     gem 'rubocop', require: false
     gem 'rubocop-capybara', require: false
@@ -64,23 +71,22 @@ def add_gems
   end
 
   gem_group :development do
+    gem 'database_consistency', require: false
     gem 'i18n-tasks'
-    gem 'overmind'
     gem 'lefthook'
+    gem 'overmind'
+    gem 'web-console'
   end
 
   gem_group :test do
     gem 'cuprite'
     gem 'factory_bot_rails'
     gem 'generator_spec'
+    gem 'shoulda-matchers'
   end
-
-  remove_commented_lines 'Gemfile'
 end
 
 def copy_files
-  copy_file 'Procfile.dev', force: true
-  copy_file 'Procfile.production', force: true
   copy_file '.rubocop.yml', force: true
   copy_file 'Rakefile', force: true
   copy_file 'lefthook.yml', force: true
@@ -109,7 +115,7 @@ def install_binstubs
     overmind
     rspec-core
     rubocop
-    vite
+    vite_rails
   ]
   run "bundle binstubs #{binstubs.join(' ')}"
 end
@@ -120,8 +126,10 @@ def run_generators
 end
 
 def add_npm_dependencies
-  run 'npm i -D @hotwired/turbo daisyui@latest vite vite-plugin-ruby'
-  run 'npm i @hotwired/stimulus stimulus-vite-helpers'
+  run 'npm i -D @hotwired/turbo heroicons postcss prettier stimulus-vite-helpers vite vite-plugin-rails vite-plugin-ruby'
+
+  run 'npm i @hotwired/stimulus @hotwired/turbo-rails @rails/actioncable @rails/activestorage @rails/request.js @tailwindcss/aspect-ratio @tailwindcss/typography @tailwindcss/vite autoprefixer daisyui stimulus-vite-helpers tailwind-scrollbar tailwindcss tailwindcss-displaymodes'
+
   run 'vite install'
 end
 
@@ -132,9 +140,6 @@ def set_up_database
   remove_commented_lines 'config/database.yml'
 end
 
-def set_up_tailwindcss
-  rails_command 'tailwindcss:install'
-end
 def set_up_turbo
   rails_command 'turbo:install'
 end
@@ -168,11 +173,9 @@ def update_routes
 end
 
 # Main setup
-
 source_paths
 create_files
-set_up_runtimes
-add_gems
+set_up_gemfile
 
 after_bundle do
   say '⚡Adding npm dependencies ...', :yellow
@@ -183,9 +186,6 @@ after_bundle do
 
   say '⚡Setting up database ...', :yellow
   set_up_database
-
-  say '⚡Setting up tailwindcss ...', :yellow
-  set_up_tailwindcss
 
   say '⚡Setting up turbo ...', :yellow
   set_up_turbo
@@ -223,6 +223,5 @@ after_bundle do
   git commit: %( -m "Initial commit" )
   run 'mkdir -p .git/safe'
 
-  say
   say 'Kickoff app successfully created! 👍'..., :green
 end
