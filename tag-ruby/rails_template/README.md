@@ -25,7 +25,6 @@ nodejs $NODE_VERSION
 EOF
 cd ..
 
-# create new app
 rails new $APP_NAME \
   --database=postgresql \
   --asset-pipeline=propshaft \

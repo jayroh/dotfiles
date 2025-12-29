@@ -15,6 +15,9 @@ t() {
     # Probably going to need a "server" window, so ...
     tmux neww -n server
 
+    # Probably going to need a "claude" window, so ...
+    tmux neww -n claude
+
     # Go back to vim window ...
     tmux select-window -t :1
   else
