@@ -8,10 +8,10 @@ return {
 			formatters_by_ft = {
 				lua = { "stylua" },
 				ruby = { "rubocop" },
-				javascript = { "eslint", "prettier" },
-				typescript = { "eslint", "prettier" },
-				javascriptreact = { "eslint", "prettier" },
-				typescriptreact = { "eslint", "prettier" },
+				javascript = { "prettier" },
+				typescript = { "prettier" },
+				javascriptreact = { "prettier" },
+				typescriptreact = { "prettier" },
 			},
 			formatters = {
 				rubocop = {
