@@ -23,9 +23,14 @@ return {
 		signature = { enabled = true },
 
 		sources = {
-			default = { "path", "ripgrep", "snippets", "buffer", "lsp", "emoji" },
+			default = { "snippets", "path", "ripgrep", "buffer", "lsp", "emoji" },
 
 			providers = {
+				snippets = {
+					opts = {
+						search_paths = { vim.fn.stdpath("config") .. "/snippets" },
+					},
+				},
 				ripgrep = {
 					module = "blink-ripgrep",
 					name = "Ripgrep",
