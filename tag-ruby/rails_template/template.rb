@@ -126,7 +126,7 @@ def run_generators
 end
 
 def add_npm_dependencies
-  run 'npm i -D @hotwired/turbo heroicons postcss prettier stimulus-vite-helpers vite vite-plugin-rails vite-plugin-ruby'
+  run 'npm i -D @hotwired/turbo heroicons oxfmt postcss stimulus-vite-helpers vite vite-plugin-rails vite-plugin-ruby'
 
   run 'npm i @hotwired/stimulus @hotwired/turbo-rails @rails/actioncable @rails/activestorage @rails/request.js @tailwindcss/aspect-ratio @tailwindcss/typography @tailwindcss/vite autoprefixer daisyui stimulus-vite-helpers tailwind-scrollbar tailwindcss tailwindcss-displaymodes'
 
