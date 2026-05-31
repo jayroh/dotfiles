@@ -1,0 +1,110 @@
+#!/usr/bin/env bash
+# ABOUTME: AI-powered git commit message generator using llm and gum
+# ABOUTME: Supports context flag and interactive rerolling with temperature adjustment
+
+set -e
+
+# Parse arguments
+context_flag=false
+while getopts "c" opt; do
+    case $opt in
+        c) context_flag=true ;;
+        *) exit 1 ;;
+    esac
+done
+
+# Get the git diff
+diff=$(git diff --cached)
+
+if [[ -z "$diff" ]]; then
+    echo "No staged changes to commit"
+    exit 1
+fi
+
+# Collect context if -c flag is provided
+context=""
+if [[ "$context_flag" == true ]]; then
+    context=$(gum write --placeholder "What motivated this change? Is there context a future reader will need to know? What problem did you solve?")
+fi
+
+# Start with default temperature (no -o flag)
+temp_options=()
+reroll_count=0
+base_prompt="Write a git commit message for these changes. Format it as:
+- First line: a summary of 72 characters or less
+- Second line: blank
+- Remaining lines: detailed description
+
+Return only the commit message."
+
+if [[ -n "$context" ]]; then
+    prompt="$base_prompt
+
+Additional context from the developer:
+$context"
+else
+    prompt="$base_prompt"
+fi
+
+# Loop to allow rerolls
+while true; do
+    # Generate commit message and save to temp file to preserve newlines
+    temp_file=$(mktemp)
+
+    if [[ ${#temp_options[@]} -eq 0 ]]; then
+        echo "$diff" | llm -s "$prompt" > "$temp_file"
+    else
+        echo "$diff" | llm -s "$prompt" "${temp_options[@]}" > "$temp_file"
+    fi
+
+    # Read first line to check length
+    summary=$(head -n 1 "$temp_file")
+    summary_length=${#summary}
+
+    if [[ $summary_length -gt 72 ]]; then
+        echo "Summary too long ($summary_length chars), regenerating..."
+        rm "$temp_file"
+        continue
+    fi
+
+    # Strip markdown code fences the LLM sometimes wraps around the message
+    stripped_file=$(mktemp)
+    sed '/^```/d' "$temp_file" > "$stripped_file"
+    rm "$temp_file"
+    temp_file="$stripped_file"
+
+    # Clean up excessive blank lines (condense 2+ blank lines into 1)
+    cleaned_file=$(mktemp)
+    sed '/^$/N;/^\n$/D' "$temp_file" > "$cleaned_file"
+    rm "$temp_file"
+    temp_file="$cleaned_file"
+
+    # Show the generated message
+    echo "Generated commit message:"
+    gum style --foreground 212 < "$temp_file"
+    echo ""
+
+    # Let user choose what to do
+    action=$(gum choose "Commit" "Reroll" "Cancel")
+
+    case "$action" in
+        Commit)
+            git commit -F "$temp_file"
+            rm "$temp_file"
+            exit 0
+            ;;
+        Reroll)
+            reroll_count=$((reroll_count + 1))
+            temp=$(bc <<< "scale=1; 0.5 + $reroll_count * 0.3")
+            temp_options=(-o temperature "$temp")
+            echo "Generating new message (temperature: $temp)..."
+            rm "$temp_file"
+            continue
+            ;;
+        Cancel)
+            echo "Commit cancelled"
+            rm "$temp_file"
+            exit 1
+            ;;
+    esac
+done
