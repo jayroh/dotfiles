@@ -12,7 +12,7 @@ httpserver() {
     return 1
   fi
 
-  python -m SimpleHTTPServer $1
+  python3 -m http.server $1
 }
 
 # Usage: mkhtml filename.html

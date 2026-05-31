@@ -6,13 +6,14 @@ return {
 		bigfile = { enabled = true },
 		dashboard = { enabled = false },
 		explorer = { enabled = false },
+		image = { enabled = true },
 		indent = {
 			enabled = true,
 			animate = {
 				duration = 0,
 			},
 		},
-		input = { enabled = true },
+		input = { enabled = false }, -- dressing.nvim (via avante) owns vim.ui.input
 		lazygit = { enabled = true },
 		picker = { enabled = false },
 		notifier = { enabled = true },

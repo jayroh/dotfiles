@@ -1,0 +1,22 @@
+{
+  "hr": {
+    "prefix": "hr",
+    "body": ["<hr>", "", "$0"]
+  },
+  "script": {
+    "prefix": "script",
+    "body": ["<script src=\"$0\"></script>"]
+  },
+  "div": {
+    "prefix": "div",
+    "body": ["<div id=\"$1\" class=\"$2\">", "  $0", "</div>"]
+  },
+  "ul": {
+    "prefix": "ul",
+    "body": ["<ul class=\"$1\">", "  $0", "</ul>"]
+  },
+  "li": {
+    "prefix": "li",
+    "body": ["<li class=\"$1\">$0</li>"]
+  }
+}

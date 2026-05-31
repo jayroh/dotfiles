@@ -1,0 +1,22 @@
+{
+  "colors": {
+    "prefix": "colors",
+    "body": [
+      "GREEN='\\033[0;32m'",
+      "RED='\\033[0;31m'",
+      "RESET_COLOR='\\033[0m'",
+      "",
+      "echo -e \"\\${GREEN}Yay!\\${RESET_COLOR}\"",
+      "echo -e \"\\${RED}Error!\\${RESET_COLOR}\""
+    ],
+    "description": "ANSI color variables"
+  },
+  "green echo": {
+    "prefix": "green",
+    "body": ["echo -e \"\\${GREEN}$1\\${RESET_COLOR}\""]
+  },
+  "red echo": {
+    "prefix": "red",
+    "body": ["echo -e \"\\${RED}$1\\${RESET_COLOR}\""]
+  }
+}

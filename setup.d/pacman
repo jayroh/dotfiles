@@ -1,0 +1,19 @@
+#!/bin/bash
+# Install Linux (Arch) packages from Pacmanfile via yay.
+set -e
+
+if [[ "$(uname -s)" != "Linux" ]]; then
+  echo "setup.d/pacman: skipping (not on Linux)"
+  exit 0
+fi
+
+if ! command -v yay &>/dev/null; then
+  echo "⚠️  yay is required (handles both pacman repos and AUR)."
+  echo "   Bootstrap it with:"
+  echo "     sudo pacman -S --needed git base-devel"
+  echo "     git clone https://aur.archlinux.org/yay.git /tmp/yay && (cd /tmp/yay && makepkg -si)"
+  exit 1
+fi
+
+cd "$(dirname "$0")/.."
+< Pacmanfile xargs yay -S --needed --noconfirm

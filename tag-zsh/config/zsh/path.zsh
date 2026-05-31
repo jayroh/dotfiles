@@ -1,4 +1,4 @@
-[[ -d /usr/lib/jvm/java-8-openjdk-amd64 ]] && export JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64"
+[[ -d /usr/lib/jvm/default ]]              && export JAVA_HOME="/usr/lib/jvm/default"
 [[ -x /usr/libexec/java_home ]]            && export JAVA_HOME=$(/usr/libexec/java_home)
 [[ -d "$HOME/.nvm" ]]                      && export NVM_DIR="$HOME/.nvm"
 
@@ -30,12 +30,6 @@ BUN_BIN="$HOME/.bun/bin"
 	$path
 )
 
-QT_BIN="$HOME/Qt5.5.1/5.5/clang_64/bin"
-[[ -d  $QT_BIN ]] && path=(
-	$QT_BIN
-	$path
-)
-
 PG_APP_BIN="/Applications/Postgres.app/Contents/Versions/latest/bin"
 [[ -d $PG_APP_BIN ]] && path=(
 	$PG_APP_BIN
@@ -53,8 +47,6 @@ if [[ -f "$HOMEBREW_HOME/bin/brew" ]] &> /dev/null; then
 	path=(
 		"$HOMEBREW_HOME/bin"
 		"$HOMEBREW_HOME/sbin"
-		"$HOMEBREW_HOME/opt/imagemagick@6/bin"
-		"$HOMEBREW_HOME/opt/bison@2.7/bin"
 		$path
 	)
 

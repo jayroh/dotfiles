@@ -1,72 +1,28 @@
 #!/bin/bash
+# Orchestrator — runs each step under setup.d/ in dependency order.
+# Each step under setup.d/ is also runnable standalone.
+set -e
 
-ZSH_LOCATION=`which zsh`
+cd "$(dirname "$0")"
 
-# LINUX ***********************************************************************
-if [[ `uname -s` == "Linux" && ! " $@ " =~ " --skip-apt " ]]; then
-  # install dependencies
-  while IFS= read -r package
-  do
-    # Run apt-get install against each package
-    sudo apt-get install -y "$package"
-  done < "Aptfile"
+# Platform-specific package installs (each no-ops on the wrong platform)
+./setup.d/pacman
+./setup.d/mac
 
-  if [ -x "$(command -v snap)" ]; then
-    < Snapfile.classic xargs sudo snap install --classic
-  fi
-# MAC *************************************************************************
-elif [[ `uname -s` != "Linux" ]]; then
-  if [ "$(uname -m 2> /dev/null)" == "arm64" && -f /opt/homebrew/bin/zsh ]; then
-    ZSH_LOCATION="/opt/homebrew/bin/zsh"
-  elif [ -f /usr/local/bin/zsh ]; then
-    ZSH_LOCATION="/usr/local/bin/zsh"
-  fi
+# Cross-platform tooling
+./setup.d/shell
+./setup.d/mise
+./setup.d/bunnai
+./setup.d/neovim
+./setup.d/tmux
+./setup.d/omarchy
+./setup.d/rcup
 
-  # Use homebrew to install packages found in both `./Brewfile` and `~/.Brewfile`
-  # A bit redundant since they eventually point to the same file but it's a good
-  # way to work in case one doesn't exist
-  brew bundle
-  brew bundle --file=~/.Brewfile
-
-  # Install command line tools if you haven't already
-  xcode-select --install
-  # Enable command line tools
-  sudo xcode-select --switch /Library/Developer/CommandLineTools
-  # Install fonts
-  open -b com.apple.FontBook ./misc/*.[ot]tf
-fi
-
-echo "Changing shell ..."
-chsh -s $ZSH_LOCATION
-
-# Install terminfos
-tic -x ~/.dotfiles/misc/tmux.terminfo
-tic -x ~/.dotfiles/misc/xterm-256color-italic.terminfo
-
-# Install pure
-[ -d "$HOME/.zsh" ] || mkdir -p "$HOME/.zsh"
-[ -d "$HOME/.zsh/pure" ] || git clone https://github.com/sindresorhus/pure.git "$HOME/.zsh/pure"
-
-# Install and configure asdf
-./setup-asdf
-
-# Install the lazygit bunnai thing
-bun install -g @chhoumann/bunnai
-echo "⚠️  Now set up bunnai with 'bunnai config' ..."
-
-# Install dependencies for neovim
-./setup-neovim
-
-# Install tpm (tmux plugin manager)
-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-
-rcup -x setup -t ruby -t bash -t node -t ansible -t git -t nvim -t rspec -t tmux -t zsh -t lazygit
-
-echo "Setup complete."
 echo ""
-echo "Run the following to get vim situated:"
+echo "✅ Setup complete."
 echo ""
-echo "$ nvim +'PlugInstall --sync' +qa"
-echo ""
-echo "And (if you're on a Mac) set iTerm's font to 'MesloLGS NF'"
+echo "Next:"
+echo "  $ nvim +'PlugInstall --sync' +qa"
+echo "  (macOS) set iTerm's font to 'MesloLGS NF'"
+echo "  (Arch)  install fonts:  cp ./misc/*.[ot]tf ~/.local/share/fonts/ && fc-cache -f"
 echo ""

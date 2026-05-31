@@ -1,6 +1,5 @@
 -- allow for local, per-project vimrc configuration
 vim.opt.exrc = true
-vim.opt.secure = true
 
 -- line number
 vim.opt.number = true -- Show absolute line numbers
@@ -30,9 +29,6 @@ vim.opt.sw = 4
 vim.opt.ts = 4
 vim.cmd("syntax enable")
 
--- vim-textobj-rubyblock requires that the matchit.vim plugin is enabled.
-vim.cmd("runtime macros/matchit.vim")
-
 vim.cmd("highlight Comment cterm=italic gui=italic")
 
 -- config python host
@@ -40,9 +36,6 @@ vim.g.python3_host_prog = vim.fn.exepath("python3")
 
 -- config ruby host
 vim.g.ruby_host_prog = vim.fn.exepath("neovim-ruby-host")
-
--- snippet location
-vim.g.vsnip_snippet_dir = "~/.dotfiles/tag-nvim/snippets"
 
 -- ignore perl
 vim.g.loaded_perl_provider = 0

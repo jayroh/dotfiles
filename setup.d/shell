@@ -1,0 +1,34 @@
+#!/bin/bash
+# Set zsh as default shell, install custom terminfos, clone the pure prompt.
+set -e
+
+cd "$(dirname "$0")/.."
+
+# Determine zsh location (homebrew preferred on mac)
+if [[ "$(uname -s)" == "Darwin" ]]; then
+  if [[ "$(uname -m)" == "arm64" && -f /opt/homebrew/bin/zsh ]]; then
+    ZSH_LOCATION="/opt/homebrew/bin/zsh"
+  elif [ -f /usr/local/bin/zsh ]; then
+    ZSH_LOCATION="/usr/local/bin/zsh"
+  else
+    ZSH_LOCATION="$(which zsh)"
+  fi
+else
+  ZSH_LOCATION="$(which zsh)"
+fi
+
+if [ -z "$ZSH_LOCATION" ]; then
+  echo "⚠️  zsh not found on PATH — install it before running this step."
+  exit 1
+fi
+
+echo "Setting default shell to $ZSH_LOCATION ..."
+chsh -s "$ZSH_LOCATION"
+
+echo "Installing terminfos ..."
+tic -x misc/tmux.terminfo
+tic -x misc/xterm-256color-italic.terminfo
+
+echo "Installing pure prompt ..."
+[ -d "$HOME/.zsh" ] || mkdir -p "$HOME/.zsh"
+[ -d "$HOME/.zsh/pure" ] || git clone https://github.com/sindresorhus/pure.git "$HOME/.zsh/pure"

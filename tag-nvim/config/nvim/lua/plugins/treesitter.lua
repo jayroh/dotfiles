@@ -1,58 +1,51 @@
 return {
 	"nvim-treesitter/nvim-treesitter",
+	branch = "main",
 	build = ":TSUpdate",
-	event = { "BufReadPre", "BufNewFile" },
+	lazy = false, -- main branch does not support lazy-loading
 	dependencies = {
-		"nvim-treesitter/nvim-treesitter-textobjects",
 		"nvim-treesitter/nvim-treesitter-context",
 		"JoosepAlviste/nvim-ts-context-commentstring",
 	},
 	config = function()
-		require("nvim-treesitter.configs").setup({
-			ensure_installed = {
-				"ruby",
-				"html",
-				"javascript",
-				"typescript",
-				"tsx",
-				"lua",
-				"vim",
-				"css",
-				"json",
-				"yaml",
-				"markdown",
-				"bash",
-			},
-			sync_install = false,
-			auto_install = true,
-			highlight = {
-				enable = true,
-				additional_vim_regex_highlighting = false,
-			},
-			indent = {
-				enable = true,
-			},
-			incremental_selection = {
-				enable = true,
-				keymaps = {
-					init_selection = "<C-space>",
-					node_incremental = "<C-space>",
-					scope_incremental = "<C-s>",
-					node_decremental = "<M-space>",
-				},
-			},
-			textobjects = {
-				select = {
-					enable = true,
-					lookahead = true,
-					keymaps = {
-						["af"] = "@function.outer",
-						["if"] = "@function.inner",
-						["ac"] = "@class.outer",
-						["ic"] = "@class.inner",
-					},
-				},
-			},
+		local parsers = {
+			"bash",
+			"css",
+			"diff",
+			"embedded_template",
+			"html",
+			"javascript",
+			"json",
+			"lua",
+			"markdown",
+			"markdown_inline",
+			"query",
+			"regex",
+			"ruby",
+			"scss",
+			"svelte",
+			"toml",
+			"tsx",
+			"typescript",
+			"vim",
+			"vimdoc",
+			"vue",
+			"yaml",
+		}
+		require("nvim-treesitter").install(parsers)
+
+		-- Activate highlight + indent for any buffer whose filetype has a parser.
+		vim.api.nvim_create_autocmd("FileType", {
+			callback = function(args)
+				local ft = vim.bo[args.buf].filetype
+				local lang = vim.treesitter.language.get_lang(ft)
+				if not lang then
+					return
+				end
+				if pcall(vim.treesitter.start, args.buf, lang) then
+					vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+				end
+			end,
 		})
 
 		require("treesitter-context").setup({

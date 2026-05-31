@@ -2,7 +2,7 @@
 # ---------
 
 machine=`uname -s`
-[ "$machine" = "Linux" ]  && FZF_BASE="/usr/share/doc/fzf/examples"
+[ "$machine" = "Linux" ]  && FZF_BASE="/usr/share/fzf"
 [ "$machine" = "Darwin" ] && FZF_BASE="/opt/homebrew/opt/fzf/shell"
 
 # Auto-completion and key bindings

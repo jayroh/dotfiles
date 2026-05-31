@@ -1,0 +1,21 @@
+#!/bin/bash
+# Install macOS packages: Homebrew bundles, Xcode CLT, fonts.
+set -e
+
+if [[ "$(uname -s)" != "Darwin" ]]; then
+  echo "setup.d/mac: skipping (not on macOS)"
+  exit 0
+fi
+
+cd "$(dirname "$0")/.."
+
+# Use homebrew to install packages found in both ./Brewfile and ~/.Brewfile
+brew bundle
+[ -f "$HOME/.Brewfile" ] && brew bundle --file="$HOME/.Brewfile"
+
+# Install + activate Xcode command line tools
+xcode-select --install || true
+sudo xcode-select --switch /Library/Developer/CommandLineTools
+
+# Install fonts
+open -b com.apple.FontBook ./misc/*.[ot]tf

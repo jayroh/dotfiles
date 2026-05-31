@@ -1,0 +1,129 @@
+{
+  "non-breaking space": {
+    "prefix": "nbsp",
+    "body": ["&nbsp;"]
+  },
+  "br": {
+    "prefix": "br",
+    "body": ["<br>"]
+  },
+  "div": {
+    "prefix": "div",
+    "body": ["<div id=\"$1\" class=\"$2\">", "  $0", "</div>"]
+  },
+  "article": {
+    "prefix": "article",
+    "body": ["<article class=\"$1\">", "  $2", "</article>"]
+  },
+  "erb tag": {
+    "prefix": "%",
+    "body": ["<% $1 %>"]
+  },
+  "erb output tag": {
+    "prefix": "=",
+    "body": ["<%= $1 %>"]
+  },
+  "erb comment": {
+    "prefix": "!",
+    "body": ["<!-- $1 -->"]
+  },
+  "pry": {
+    "prefix": "pry",
+    "body": ["<% binding.pry %>"]
+  },
+  "link_to": {
+    "prefix": "link_to",
+    "body": ["<%= link_to \"${1:Text}\", ${2}_path($0) %>"]
+  },
+  "render": {
+    "prefix": "render",
+    "body": ["<%= render '$1' %>"]
+  },
+  "content_for": {
+    "prefix": "content",
+    "body": ["<% content_for :$1, '$2' %>"]
+  },
+  "yield": {
+    "prefix": "yield",
+    "body": ["<%= yield :$1 %>"]
+  },
+  "cache": {
+    "prefix": "cache",
+    "body": ["<% cache $1 do %>", "  $2", "<% end %>"]
+  },
+  "if": {
+    "prefix": "if",
+    "body": ["<% if $1 -%>", "  $2", "<% end -%>"]
+  },
+  "if/else": {
+    "prefix": "ife",
+    "body": ["<% if $1 -%>", "  $2", "<% else -%>", "  $3", "<% end -%>"]
+  },
+  "else": {
+    "prefix": "else",
+    "body": ["<% else -%>"]
+  },
+  "elsif": {
+    "prefix": "elsif",
+    "body": ["<% elsif $1 -%>"]
+  },
+  "unless": {
+    "prefix": "unless",
+    "body": ["<% unless $1 -%>", "  $2", "<% end -%>"]
+  },
+  "end": {
+    "prefix": "end",
+    "body": ["<% end %>"]
+  },
+  "each": {
+    "prefix": "each",
+    "body": ["<% ${1:items}.each do |${2:item}| %>", "  $2", "<% end %>"]
+  },
+  "a": {
+    "prefix": "a",
+    "body": ["<a href=\"$1\">$2</a>"]
+  },
+  "span": {
+    "prefix": "sp",
+    "body": ["<span>$1</span>"]
+  },
+  "li": {
+    "prefix": "li",
+    "body": ["<li>$1</li>"]
+  },
+  "ul": {
+    "prefix": "ul",
+    "body": ["<ul>", "  $1", "</ul>"]
+  },
+  "p": {
+    "prefix": "p",
+    "body": ["<p>", "  $1", "</p>"]
+  },
+  "h1": { "prefix": "h1", "body": ["<h1 class=\"$1\">$2</h1>"] },
+  "h2": { "prefix": "h2", "body": ["<h2 class=\"$1\">$2</h2>"] },
+  "h3": { "prefix": "h3", "body": ["<h3 class=\"$1\">$2</h3>"] },
+  "h4": { "prefix": "h4", "body": ["<h4 class=\"$1\">$2</h4>"] },
+  "img": {
+    "prefix": "img",
+    "body": ["<img src=\"$1\" class=\"$2\" title=\"$3\" alt=\"$4\">"]
+  },
+  "header": {
+    "prefix": "header",
+    "body": ["<header>", "  $1", "</header>"]
+  },
+  "nav": {
+    "prefix": "nav",
+    "body": ["<nav>", "  $1", "</nav>"]
+  },
+  "console.log": {
+    "prefix": "log",
+    "body": ["console.log('$1');"]
+  },
+  "lorem": {
+    "prefix": "lorem",
+    "body": [
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit,",
+      "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+    ]
+  }
+}

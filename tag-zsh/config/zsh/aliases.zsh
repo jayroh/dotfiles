@@ -1,5 +1,8 @@
 # convenience
-alias ls='ls -G'
+case "$(uname -s)" in
+  Darwin) alias ls='ls -G' ;;
+  Linux)  alias ls='ls --color=auto' ;;
+esac
 alias Grep='grep'
 alias hist='history'
 alias his='history'

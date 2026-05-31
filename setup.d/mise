@@ -1,0 +1,31 @@
+#!/bin/bash
+# Install mise and provision runtimes from .tool-versions.
+set -e
+
+cd "$(dirname "$0")/.."
+
+# Install mise if not already present
+if ! command -v mise &>/dev/null; then
+  if [[ "$(uname -s)" == "Darwin" ]] && command -v brew &>/dev/null; then
+    echo "Installing mise via Homebrew ..."
+    brew install mise
+  elif command -v pacman &>/dev/null; then
+    echo "Installing mise via pacman ..."
+    sudo pacman -S --needed --noconfirm mise
+  else
+    echo "Installing mise via official installer ..."
+    curl -fsSL https://mise.run | sh
+    export PATH="$HOME/.local/bin:$PATH"
+  fi
+fi
+
+echo "Provisioning runtimes from .tool-versions ..."
+mise install
+
+echo "Pinning latest versions globally for tools not in .tool-versions ..."
+mise use -g lazygit@latest bun@latest
+
+# Optional: uncomment to install other languages globally
+# mise use -g golang@latest python@latest rust@latest
+
+echo "✅ mise setup complete. Run 'mise current' to verify."

@@ -1,0 +1,11 @@
+#!/bin/bash
+# Install tpm (tmux plugin manager).
+set -e
+
+if [ -d "$HOME/.tmux/plugins/tpm" ]; then
+  echo "setup.d/tmux: tpm already installed at ~/.tmux/plugins/tpm"
+  exit 0
+fi
+
+git clone https://github.com/tmux-plugins/tpm "$HOME/.tmux/plugins/tpm"
+echo "✅ tpm installed. Run prefix + I inside tmux to fetch plugins."

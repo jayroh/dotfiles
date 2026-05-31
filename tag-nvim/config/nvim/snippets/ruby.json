@@ -1,0 +1,154 @@
+{
+  "frozen string literal": {
+    "prefix": "fro",
+    "body": ["# frozen_string_literal: true", "", "$0"]
+  },
+  "module": {
+    "prefix": "mod",
+    "body": ["module $1", "  $0", "end"]
+  },
+  "class": {
+    "prefix": "cla",
+    "body": ["class $1", "  $0", "end"]
+  },
+  "initialize": {
+    "prefix": "init",
+    "body": ["def initialize($1)", "  $2", "end"]
+  },
+  "memoize method": {
+    "prefix": "memo",
+    "body": ["def $1", "  @_${1} ||= $0", "end"]
+  },
+  "attr_reader": {
+    "prefix": "ar",
+    "body": ["attr_reader :$0"]
+  },
+  "attr_writer": {
+    "prefix": "aw",
+    "body": ["attr_writer :$0"]
+  },
+  "attr_accessor": {
+    "prefix": "aa",
+    "body": ["attr_accessor :$0"]
+  },
+  "pry": {
+    "prefix": "pry",
+    "body": ["binding.pry"]
+  },
+  "save_and_open_page": {
+    "prefix": "open",
+    "body": ["save_and_open_page"]
+  },
+  "gem": {
+    "prefix": "gem",
+    "body": ["gem \"$1\""]
+  },
+  "rubocop disable": {
+    "prefix": "disable",
+    "body": ["# rubocop:disable $1", "${0:$TM_SELECTED_TEXT}", "# rubocop:enable $1"]
+  },
+  "it shoulda": {
+    "prefix": "it{",
+    "body": ["it { should $1 }"]
+  },
+  "it block": {
+    "prefix": "it",
+    "body": ["it \"$1\" do", "  $2", "end"]
+  },
+  "have_db_column": {
+    "prefix": "have_db",
+    "body": ["have_db_column(:$1)"]
+  },
+  "have_attached_file": {
+    "prefix": "have_att",
+    "body": ["have_attached_file(:$1)"]
+  },
+  "factory": {
+    "prefix": "fact",
+    "body": ["factory :$1 do", "  $2", "end"]
+  },
+  "rails_helper": {
+    "prefix": "rhelp",
+    "body": ["# frozen_string_literal: true", "", "require \"rails_helper\"", ""]
+  },
+  "spec_helper": {
+    "prefix": "shelp",
+    "body": ["# frozen_string_literal: true", "", "require \"spec_helper\"", ""]
+  },
+  "RSpec describe": {
+    "prefix": "desc",
+    "body": ["RSpec.describe $1, ${2:type: :model} do", "  $3", "end"]
+  },
+  "RSpec context": {
+    "prefix": "cont",
+    "body": ["context \"$1\" do", "  $2", "end"]
+  },
+  "RSpec scenario": {
+    "prefix": "scen",
+    "body": ["scenario \"$1\" do", "  $2", "end"]
+  },
+  "RSpec feature": {
+    "prefix": "feat",
+    "body": [
+      "RSpec.feature \"$1\", type: :feature do",
+      "  context \"$2\" do",
+      "    scenario \"$3\" do",
+      "      $4",
+      "    end",
+      "  end",
+      "end"
+    ]
+  },
+  "RSpec system test": {
+    "prefix": "rsys",
+    "body": [
+      "# frozen_string_literal: true",
+      "",
+      "require \"rails_helper\"",
+      "",
+      "RSpec.describe \"$1\" do",
+      "  context \"$2\" do",
+      "    scenario \"$3\" do",
+      "      $4",
+      "    end",
+      "  end",
+      "end"
+    ]
+  },
+  "FeatureObject class": {
+    "prefix": "featobj",
+    "body": [
+      "module FeatureObject",
+      "  class $1 < FeatureObject::Base",
+      "    $2",
+      "  end",
+      "end"
+    ]
+  },
+  "RSpec request spec": {
+    "prefix": "request",
+    "body": [
+      "require \"rails_helper\"",
+      "",
+      "RSpec.describe \"$1\", type: :request do",
+      "  describe \"GET /path\" do",
+      "    let(:user) { create(:user) }",
+      "",
+      "    it \"is successful\" do",
+      "      get \"/path\", {}, {}",
+      "",
+      "      expect(response).to have_http_status(200)",
+      "    end",
+      "  end",
+      "end"
+    ]
+  },
+  "expect to": {
+    "prefix": "expectto",
+    "body": ["expect($1).to $2"]
+  },
+  "expect not to": {
+    "prefix": "expectnot",
+    "body": ["expect($1).not_to $2"]
+  }
+}

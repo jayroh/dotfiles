@@ -7,22 +7,16 @@ APP_NAME='my_new_app'
 RUBY_VERSION='3.4.7'
 NODE_VERSION='24.11.1'
 
-asdf plugin update ruby
-asdf plugin update nodejs
-asdf install
-asdf local ruby $RUBY_VERSION
+mise use -g ruby@$RUBY_VERSION nodejs@$NODE_VERSION
 
 # update rubygems, install rails
 gem update --system
 gem install rails
 
-# Set up .tool-versions
+# Pin runtimes for the new app
 mkdir -p $APP_NAME
 cd $APP_NAME
-cat << EOF > .tool-versions
-ruby $RUBY_VERSION
-nodejs $NODE_VERSION
-EOF
+mise use ruby@$RUBY_VERSION nodejs@$NODE_VERSION
 cd ..
 
 rails new $APP_NAME \

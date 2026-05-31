@@ -1,0 +1,28 @@
+#!/bin/bash
+# Remove Omarchy-managed files that conflict with dotfiles symlinks.
+# Omarchy seeds ~/.config/nvim/lua/plugins/ with LazyVim-based files and
+# ~/.config/tmux/tmux.conf with its own config — both shadow the dotfiles.
+set -e
+
+if [ ! -d "$HOME/.config/omarchy" ]; then
+  echo "setup.d/omarchy: omarchy not detected, skipping."
+  exit 0
+fi
+
+echo "setup.d/omarchy: removing conflicting Omarchy-managed files..."
+
+NVIM_PLUGINS="$HOME/.config/nvim/lua/plugins"
+for f in \
+  disable-news-alert.lua \
+  theme.lua \
+  all-themes.lua \
+  example.lua \
+  omarchy-theme-hotreload.lua \
+  snacks-animated-scrolling-off.lua
+do
+  rm -f "$NVIM_PLUGINS/$f"
+done
+
+rm -f "$HOME/.config/tmux/tmux.conf"
+
+echo "✅ Omarchy cleanup done."

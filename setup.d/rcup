@@ -1,0 +1,12 @@
+#!/bin/bash
+# Symlink every tag-* directory into $HOME via rcm.
+set -e
+
+cd "$(dirname "$0")/.."
+
+if ! command -v rcup &>/dev/null; then
+  echo "⚠️  rcup (from thoughtbot/rcm) not found on PATH."
+  exit 1
+fi
+
+rcup -x setup -t ruby -t bash -t node -t ansible -t git -t nvim -t rspec -t tmux -t zsh -t lazygit

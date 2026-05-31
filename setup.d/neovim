@@ -1,0 +1,34 @@
+#!/bin/bash
+# Install language-host providers Neovim needs (Ruby gem, Node package, Python pynvim).
+set -e
+
+# Ruby: install the neovim gem in every installed Ruby version managed by mise.
+if command -v mise &>/dev/null; then
+  versions=$(mise ls --installed ruby 2>/dev/null | awk 'NR>1 {print $2}' | grep -v '^$' | sort -u)
+  for version in $versions; do
+    echo "Installing neovim gem and rubocop in Ruby version: $version"
+    mise exec ruby@$version -- gem install neovim rubocop
+  done
+  # Refresh mise shims so neovim-ruby-host (and any new gem bins) are reachable.
+  mise reshim
+fi
+
+# Node: install the neovim npm package globally.
+if command -v npm &>/dev/null; then
+  echo "Installing neovim npm package."
+  npm install -g neovim
+fi
+
+# Global bun packages for Neovim tooling.
+if command -v bun &>/dev/null; then
+  echo "Installing bun global packages (oxfmt, mmdc) ..."
+  bun install -g oxfmt @mermaid-js/mermaid-cli
+fi
+
+# Python: install pynvim if missing.
+if command -v python3 &>/dev/null; then
+  if ! python3 -c "import neovim" >& /dev/null; then
+    echo "Installing pynvim via pip3."
+    command -v pip3 && pip3 install neovim pynvim
+  fi
+fi

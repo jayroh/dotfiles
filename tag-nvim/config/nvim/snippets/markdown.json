@@ -1,6 +1,20 @@
 {
+  "front-matter": {
+    "prefix": "front",
+    "body": [
+      "---",
+      "title: ${1:Title}",
+      "category: ${2:category}",
+      "author: Joel",
+      "layout: post",
+      "permalink: /$CURRENT_YEAR/$CURRENT_MONTH/$CURRENT_DATE/${3:slug}.html",
+      "alias: /$CURRENT_YEAR/$CURRENT_MONTH/$CURRENT_DATE/$3",
+      "---"
+    ],
+    "description": "Jekyll/blog front matter with auto-filled date"
+  },
   "photo-with-caption": {
-    "prefix": ["photo-with"],
+    "prefix": "photo-with",
     "body": [
       "<figure class=\"photo-with-caption\">",
       "  <picture>",
@@ -12,42 +26,24 @@
       "    <!--[if IE 9]></video><![endif]-->",
       "    <img src=\"{% imgproxy_url path: \"/images/photos/$1.jpg\", resizing_type: 'fill', width: 738 %}\"",
       "      decoding=\"async\"",
-      "      alt=\"${2:Alt tag contents}\"",
+      "      alt=\"${2:Alt text}\"",
       "      width=\"369\"",
       "      height=\"656\" />",
       "  </picture>",
       "",
       "  <figcaption>",
-      "    ${3:Caption for the photo}",
+      "    ${3:Caption}",
       "  </figcaption>",
       "</figure>"
     ],
-    "description": "Figure, picture, and caption"
+    "description": "Responsive figure with imgproxy sources"
   },
-  "front-matter": {
-    "prefix": ["front"],
-    "body": [
-      "---",
-      "title: ${1:Title}",
-      "category: ${2:category}",
-      "author: Joel",
-      "layout: post",
-      "permalink: /2021/11/26/${3:slug}.html",
-      "alias: /2021/11/26/$3",
-      "---"
-    ],
-    "description": "Markdown front-matter"
-  },
-  "a tag": {
+  "link": {
     "prefix": "a",
-    "body": [
-      "[${1:link text}](${2:https://})"
-    ]
+    "body": ["[$1]($2)"]
   },
-  "img tag": {
+  "image": {
     "prefix": "img",
-    "body": [
-      "![${1:alt text}](${2})"
-    ]
+    "body": ["![$1]($2)"]
   }
 }

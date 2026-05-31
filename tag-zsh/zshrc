@@ -4,7 +4,6 @@
 # source the base zshrc configurations first
 for config_file (~/.config/zsh/*.zsh) source $config_file
 
-[ -s "$HOME/.asdf/asdf.sh" ]                          && . "$HOME/.asdf/asdf.sh"
 [ -s "$HOMEBREW_HOME/nvm/nvm.sh" ]                    && . "$HOMEBREW_HOME/nvm/nvm.sh"
 [ -s "$HOMEBREW_HOME/nvm/etc/bash_completion.d/nvm" ] && . "$HOMEBREW_HOME/nvm/etc/bash_completion.d/nvm"
 

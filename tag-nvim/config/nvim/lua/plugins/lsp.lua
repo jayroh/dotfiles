@@ -106,7 +106,15 @@ return {
 		require("mason").setup()
 
 		require("mason-lspconfig").setup({
-			ensure_installed = { "lua_ls", "eslint", "solargraph", "ruby_lsp", "stimulus_ls", "herb_ls" },
+			ensure_installed = {
+				"lua_ls",
+				"eslint",
+				"solargraph",
+				"ruby_lsp",
+				"stimulus_ls",
+				"dockerls",
+				"docker_compose_language_service",
+			},
 		})
 
 		for server, config in pairs(opts.servers) do
