@@ -11,6 +11,7 @@ return {
 				javascript = { "oxfmt" },
 				typescript = { "oxfmt" },
 				javascriptreact = { "oxfmt" },
+				eruby = { "erb-formatter" },
 				typescriptreact = { "oxfmt" },
 			},
 			formatters = {
@@ -19,6 +20,9 @@ return {
 				},
 				stylua = {
 					command = vim.fn.expand("~/.asdf/shims/stylua"),
+				},
+				erb_formatter = {
+					command = vim.fn.expand("~/.asdf/shims/erb-formatter"),
 				},
 			},
 			format_on_save = {

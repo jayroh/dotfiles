@@ -68,6 +68,7 @@ return {
 			end)(),
 			docker_compose_language_service = {},
 			dockerls = {},
+			herb_ls = {},
 			tailwindcss = {},
 			stimulus_ls = {
 				filetypes = { "html", "ruby", "eruby" },
@@ -105,7 +106,7 @@ return {
 		require("mason").setup()
 
 		require("mason-lspconfig").setup({
-			ensure_installed = { "lua_ls", "eslint", "solargraph", "ruby_lsp", "stimulus_ls" },
+			ensure_installed = { "lua_ls", "eslint", "solargraph", "ruby_lsp", "stimulus_ls", "herb_ls" },
 		})
 
 		for server, config in pairs(opts.servers) do
