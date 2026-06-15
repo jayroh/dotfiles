@@ -107,6 +107,13 @@ Rationale for inclusions/exclusions:
   `jdk-openjdk`, `s3cmd`, `docker-buildx`, `docker-compose`) are
   intentionally absent.
 
+**`setup.d/pacman`** — small fix to skip cleanly on non-Arch Linux. Today
+it `exit 1`s when `yay` is missing, which halts the orchestrator (`setup`
+runs with `set -e`) on a fresh Debian box where neither yay nor pacman
+exist. Add a check: if `pacman` itself isn't present, exit 0 with a skip
+message before the yay check. Only complain about missing yay on a real
+Arch system.
+
 **`setup.d/apt`** — mirrors `setup.d/pacman`'s shape:
 
 ```bash
@@ -136,7 +143,7 @@ form handles an empty/trailing-newline Aptfile cleanly. `apt-get update`
 is needed because Debian doesn't refresh package lists implicitly the way
 `yay` does.
 
-### Modified files
+### Modified files (orchestrator)
 
 **`setup`** orchestrator — insert the new step between pacman and mac:
 
