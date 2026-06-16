@@ -1,0 +1,18 @@
+#!/bin/bash
+# Install Debian/Ubuntu packages from Aptfile via apt-get.
+set -e
+
+if [[ "$(uname -s)" != "Linux" ]]; then
+  echo "setup.d/apt: skipping (not on Linux)"
+  exit 0
+fi
+
+if ! command -v apt-get &>/dev/null; then
+  echo "setup.d/apt: apt-get not found, skipping (not a Debian/Ubuntu system)"
+  exit 0
+fi
+
+cd "$(dirname "$0")/.."
+
+sudo apt-get update
+xargs -a Aptfile sudo apt-get install -y
