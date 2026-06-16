@@ -14,6 +14,9 @@ if [ -x "$(command -v brew)" ]; then
   alias ctags="`brew --prefix`/bin/ctags"
 fi
 
+# On Debian/Ubuntu the fd binary is named fdfind; alias it back to fd.
+command -v fdfind &>/dev/null && ! command -v fd &>/dev/null && alias fd=fdfind
+
 # ruby
 alias be='echo "No need for bundle exec. Use binstubs."'
 
