@@ -43,7 +43,8 @@ Two places use a "drop a file in, it gets picked up" pattern. Prefer adding a ne
 
 | Script | What it does |
 |---|---|
-| `setup.d/pacman` | Linux: install `Pacmanfile` via `yay`. No-ops on mac. |
+| `setup.d/pacman` | Linux (Arch): install `Pacmanfile` via `yay`. No-ops on mac and on non-Arch Linux. |
+| `setup.d/apt` | Linux (Debian/Ubuntu): install `Aptfile` via `apt-get`. No-ops on mac and on Linux without `apt-get`. |
 | `setup.d/mac` | macOS: `brew bundle` (`./Brewfile` + `~/.Brewfile`), Xcode CLT, Font Book. No-ops on linux. |
 | `setup.d/shell` | `chsh` to zsh, install custom terminfos, clone the pure prompt. |
 | `setup.d/mise` | Install mise (brew/pacman/curl-fallback), run `mise install`, pin lazygit+bun globally. |
@@ -54,7 +55,7 @@ Two places use a "drop a file in, it gets picked up" pattern. Prefer adding a ne
 
 Order matters in the orchestrator: package managers → shell → mise → bunnai (needs bun from mise) → neovim (needs ruby from mise) → tmux → rcup.
 
-Each platform-specific script self-guards on `uname -s` and exits 0 with a "skipping" message on the wrong OS — so the orchestrator can call both blindly. Several zsh fragments (`path.zsh`, `ruby.zsh`, `autojump.zsh`, `fzf.zsh`) also detect the platform at runtime. When adding new dependencies, update both `Brewfile` and `Pacmanfile` to keep parity. Linux paths assume Arch (`/usr/share/fzf`, `/usr/lib/jvm/default`, etc.) — adjust if porting to another distro.
+Each platform-specific script self-guards on `uname -s` and exits 0 with a "skipping" message on the wrong OS — so the orchestrator can call all three blindly. Several zsh fragments (`path.zsh`, `ruby.zsh`, `autojump.zsh`, `fzf.zsh`) also detect the platform at runtime. When adding new dependencies, update `Brewfile`, `Pacmanfile`, and `Aptfile` to keep parity — but note `Aptfile` is a tighter curated baseline, so daemons/codecs and other non-baseline tools belong only in the macOS/Arch lists. Linux supports both Arch and Debian/Ubuntu: fzf (`/usr/share/fzf` vs `/usr/share/doc/fzf/examples`), `JAVA_HOME` (`/usr/lib/jvm/default` vs `/usr/lib/jvm/default-java`), and `fd` (aliased to `fdfind` on Debian where the binary is renamed) all have fallbacks.
 
 ## Runtime versions
 
