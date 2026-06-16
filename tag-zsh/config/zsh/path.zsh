@@ -1,5 +1,6 @@
-[[ -d /usr/lib/jvm/default ]]              && export JAVA_HOME="/usr/lib/jvm/default"
-[[ -x /usr/libexec/java_home ]]            && export JAVA_HOME=$(/usr/libexec/java_home)
+[[ -d /usr/lib/jvm/default ]]              && export JAVA_HOME="/usr/lib/jvm/default"        # arch
+[[ -d /usr/lib/jvm/default-java ]]         && export JAVA_HOME="/usr/lib/jvm/default-java"   # debian
+[[ -x /usr/libexec/java_home ]]            && export JAVA_HOME=$(/usr/libexec/java_home)     # macOS
 [[ -d "$HOME/.nvm" ]]                      && export NVM_DIR="$HOME/.nvm"
 
 path=(
