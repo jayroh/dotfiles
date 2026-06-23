@@ -4,8 +4,8 @@
 APP_NAME='my_new_app'
 
 # Set up runtimes
-RUBY_VERSION='3.4.7'
-NODE_VERSION='24.11.1'
+RUBY_VERSION='4.0.5'
+NODE_VERSION='26.3.1'
 
 mise use -g ruby@$RUBY_VERSION nodejs@$NODE_VERSION
 
