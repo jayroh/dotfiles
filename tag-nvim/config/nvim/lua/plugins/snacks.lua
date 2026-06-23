@@ -13,7 +13,7 @@ return {
 				duration = 0,
 			},
 		},
-		input = { enabled = true },
+		input = { enabled = true }, -- owns vim.ui.input (was dressing.nvim via avante)
 		lazygit = { enabled = true },
 		picker = { enabled = false },
 		notifier = { enabled = true },
@@ -24,8 +24,26 @@ return {
 		words = { enabled = true },
 	},
 	keys = {
-		{ "<leader>bd", function() Snacks.bufdelete() end, desc = "Delete Buffer" },
-		{ "<leader>rn", function() Snacks.rename.rename_file() end, desc = "Rename File" },
-		{ "<leader>gg", function() Snacks.lazygit() end, desc = "Lazygit" },
+		{
+			"<leader>bd",
+			function()
+				Snacks.bufdelete()
+			end,
+			desc = "Delete Buffer",
+		},
+		{
+			"<leader>rn",
+			function()
+				Snacks.rename.rename_file()
+			end,
+			desc = "Rename File",
+		},
+		{
+			"<leader>gg",
+			function()
+				Snacks.lazygit()
+			end,
+			desc = "Lazygit",
+		},
 	},
 }

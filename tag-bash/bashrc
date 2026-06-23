@@ -113,3 +113,4 @@ fi
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 command -v mise &>/dev/null && eval "$(mise activate bash)"
+export GH_CONFIG_DIR=/home/hermes/.config/gh

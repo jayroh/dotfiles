@@ -20,8 +20,6 @@ libssl-dev
 libxml2-dev
 libxslt1-dev
 libyaml-dev
-python3-pip
-python3-pynvim
 rcm
 ripgrep
 silversearcher-ag

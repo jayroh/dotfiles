@@ -25,10 +25,15 @@ if command -v bun &>/dev/null; then
   bun install -g oxfmt @mermaid-js/mermaid-cli
 fi
 
-# Python: install pynvim if missing.
-if command -v python3 &>/dev/null; then
-  if ! python3 -c "import neovim" >& /dev/null; then
-    echo "Installing pynvim via pip3."
-    command -v pip3 && pip3 install neovim pynvim
+# Python: install the pynvim provider into mise's Python, not the system one.
+# On Debian/Ubuntu (and recent Arch) the system Python is externally-managed
+# (PEP 668), so `pip3 install` is blocked there. mise's standalone Python is
+# unmanaged and, via `mise activate`, already shadows /usr/bin on $PATH.
+if command -v mise &>/dev/null && mise ls --installed python 2>/dev/null | grep -q .; then
+  if ! mise exec python -- python -c "import pynvim" >/dev/null 2>&1; then
+    echo "Installing pynvim into mise-managed Python."
+    mise exec python -- python -m pip install pynvim
   fi
+  # Refresh shims so any console-scripts pip dropped are reachable.
+  mise reshim
 fi

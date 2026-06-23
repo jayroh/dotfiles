@@ -59,7 +59,11 @@ Each platform-specific script self-guards on `uname -s` and exits 0 with a "skip
 
 ## Runtime versions
 
-`mise` manages language runtimes and reads `.tool-versions` at the repo root (currently neovim 0.12.2, nodejs 24.3.0, lua 5.1, stylua 2.1.0, ruby 3.4.7). `setup.d/mise` installs mise (Homebrew on mac, `pacman` on arch, `mise.run` curl-installer otherwise), runs `mise install` against `.tool-versions`, then pins lazygit and bun globally. Activation happens via `tag-zsh/config/zsh/mise.zsh` and the equivalent line in `tag-bash/bashrc`.
+`mise` manages language runtimes and reads `.tool-versions` at the repo root (currently neovim 0.12.2, nodejs 24.3.0, lua 5.1, stylua 2.1.0, ruby 3.4.7). `setup.d/mise` installs mise (Homebrew on mac, `pacman` on arch, `mise.run` curl-installer otherwise), runs `mise install` against `.tool-versions`, then pins global defaults with `mise use -g` (lazygit, bun, python). Activation happens via `tag-zsh/config/zsh/zz-mise.zsh` (named `zz-*` so it sources last and its `$PATH` prepend wins) and the equivalent line in `tag-bash/bashrc`.
+
+Note the split: `.tool-versions` is **directory-scoped** (active only within the repo tree), while `mise use -g` writes `~/.config/mise/config.toml` for **user-wide** defaults. Tools that must be available everywhere (lazygit, bun, python) are global pins in `setup.d/mise`, not `.tool-versions` entries.
+
+Python is a global pin (`python@3.13.14`) precisely so it supersedes the system interpreter user-wide. On Debian/Ubuntu (and recent Arch) the apt/pacman Python is marked externally-managed (PEP 668), so `pip install` is blocked at the system level. The mise standalone Python ships its own unmanaged `pip`, and because `mise activate` prepends its bin dir, `python`/`python3`/`pip`/`pip3` resolve to mise's ahead of `/usr/bin` — superseding the system interpreter without removing it (system `python3` stays as a base/ansible dependency). Consequently the package lists no longer install `python3-pip`/`python3-pynvim` (apt), `python-pip`/`python-pynvim` (pacman), or `python@3` (brew); `setup.d/neovim` installs the `pynvim` provider into mise's Python via `mise exec`.
 
 ## Private / machine-local overrides (do not commit)
 

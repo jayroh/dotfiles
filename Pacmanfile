@@ -23,9 +23,7 @@ mise
 openssl
 pgcli
 postgresql-libs
-python-pip
 python-psycopg2
-python-pynvim
 rcm
 redis
 ripgrep

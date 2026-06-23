@@ -22,10 +22,13 @@ fi
 echo "Provisioning runtimes from .tool-versions ..."
 mise install
 
-echo "Pinning latest versions globally for tools not in .tool-versions ..."
-mise use -g lazygit@latest bun@latest
+echo "Pinning versions globally for tools not in .tool-versions ..."
+# python is pinned globally (not in .tool-versions) so a mise-managed
+# python/python3/pip/pip3 supersedes the system interpreter user-wide — the
+# distro Python is externally-managed (PEP 668) and blocks `pip install`.
+mise use -g lazygit@latest bun@latest python@3.13.14
 
 # Optional: uncomment to install other languages globally
-# mise use -g golang@latest python@latest rust@latest
+# mise use -g golang@latest rust@latest
 
 echo "✅ mise setup complete. Run 'mise current' to verify."
