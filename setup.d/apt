@@ -14,5 +14,13 @@ fi
 
 cd "$(dirname "$0")/.."
 
+# Add Charm apt repo for packages like gum that aren't in the standard repos.
+if [[ ! -f /etc/apt/keyrings/charm.gpg ]]; then
+  echo "setup.d/apt: adding Charm apt repo."
+  sudo mkdir -p /etc/apt/keyrings
+  curl -fsSL https://repo.charm.sh/apt/gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/charm.gpg
+  echo "deb [signed-by=/etc/apt/keyrings/charm.gpg] https://repo.charm.sh/apt/ * *" | sudo tee /etc/apt/sources.list.d/charm.list
+fi
+
 sudo apt-get update
 xargs -a Aptfile sudo apt-get install -y

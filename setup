@@ -14,6 +14,7 @@ cd "$(dirname "$0")"
 ./setup.d/shell
 ./setup.d/mise
 ./setup.d/bunnai
+./setup.d/llm
 ./setup.d/neovim
 ./setup.d/tmux
 ./setup.d/omarchy

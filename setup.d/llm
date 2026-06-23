@@ -1,0 +1,17 @@
+#!/bin/bash
+# Install the llm CLI into mise-managed Python.
+set -e
+
+if ! command -v mise &>/dev/null; then
+  echo "⚠️  mise not on PATH. Run setup.d/mise first (or activate mise in this shell)."
+  exit 1
+fi
+
+if ! mise ls --installed python 2>/dev/null | grep -q .; then
+  echo "⚠️  No mise-managed Python found. Run setup.d/mise first."
+  exit 1
+fi
+
+echo "Installing llm into mise-managed Python."
+mise exec python -- python -m pip install llm
+mise reshim
