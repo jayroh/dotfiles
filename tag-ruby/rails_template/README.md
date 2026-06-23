@@ -15,9 +15,7 @@ gem install rails
 
 # Pin runtimes for the new app
 mkdir -p $APP_NAME
-cd $APP_NAME
-mise use ruby@$RUBY_VERSION nodejs@$NODE_VERSION
-cd ..
+printf "ruby %s\nnodejs %s\n" "$RUBY_VERSION" "$NODE_VERSION" > $APP_NAME/.tool-versions
 
 rails new $APP_NAME \
   --database=postgresql \
