@@ -13,7 +13,7 @@ return {
 				duration = 0,
 			},
 		},
-		input = { enabled = false }, -- dressing.nvim (via avante) owns vim.ui.input
+		input = { enabled = true },
 		lazygit = { enabled = true },
 		picker = { enabled = false },
 		notifier = { enabled = true },
