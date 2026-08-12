@@ -1,79 +1,79 @@
-brew "ansible"
-brew "awscli"
-brew "bison"
-brew "bison@2.7"
-brew "direnv"
-brew "docker"
-brew "docker-compose"
-brew "docker-machine"
-brew "fd"
-brew "ffmpeg"
-brew "fzf"
-brew "gh"
-brew "gum"
-brew "git"
-brew "gpg"
-brew "graphviz"
-brew "int128/kubelogin/kubelogin"
-brew "joplin"
-brew "languagetool"
-brew "libxml2"
-brew "libxslt"
-brew "libyaml"
-brew "mas"
-brew "memcached"
-brew "mise"
-brew "neovim"
-brew "node"
-brew "openssl"
-brew "openssl@1.1"
-brew "overmind"
-brew "pgcli"
-brew "readline"
-brew "reattach-to-user-namespace"
-brew "redis"
-brew "ripgrep"
-brew "ruby-build"
-brew "s3cmd"
-brew "scooter"
-brew "shared-mime-info"
-brew "sshpass"
-brew "stripe/stripe-cli/stripe"
-brew "the_silver_searcher"
-brew "tmux"
-brew "tree"
-brew "tree-sitter-cli" # required by nvim-treesitter (main branch), >= 0.26.1
-brew "universal-ctags/universal-ctags/universal-ctags"
-brew "webp"
-brew "wget"
-brew "x264"
-brew "x265"
-brew "xvid"
-brew "yarn"
-brew "zlib"
-brew "zoxide"
-brew "zsh"
+brew 'ansible'
+brew 'awscli'
+brew 'bison'
+brew 'bison@2.7'
+brew 'direnv'
+brew 'docker'
+brew 'docker-compose'
+brew 'docker-machine'
+brew 'fd'
+brew 'ffmpeg'
+brew 'fzf'
+brew 'gh'
+brew 'gum'
+brew 'git'
+brew 'gpg'
+brew 'graphviz'
+brew 'int128/kubelogin/kubelogin'
+brew 'joplin'
+brew 'languagetool'
+brew 'libxml2'
+brew 'libxslt'
+brew 'libyaml'
+brew 'mas'
+brew 'memcached'
+brew 'mise'
+brew 'neovim'
+brew 'node'
+brew 'openssl'
+brew 'openssl@1.1'
+brew 'overmind'
+brew 'pgcli'
+brew 'readline'
+brew 'reattach-to-user-namespace'
+brew 'redis'
+brew 'ripgrep'
+brew 'ruby-build'
+brew 's3cmd'
+brew 'scooter'
+brew 'shared-mime-info'
+brew 'sshpass'
+brew 'stripe/stripe-cli/stripe'
+brew 'the_silver_searcher'
+brew 'tmux'
+brew 'tree'
+brew 'tree-sitter-cli' # required by nvim-treesitter (main branch), >= 0.26.1
+brew 'universal-ctags/universal-ctags/universal-ctags'
+brew 'webp'
+brew 'wget'
+brew 'x264'
+brew 'x265'
+brew 'xvid'
+brew 'yarn'
+brew 'zlib'
+brew 'zoxide'
+brew 'zsh'
 
-tap "heroku/brew"
-brew "heroku"
+tap 'heroku/brew'
+brew 'heroku'
 
-tap "thoughtbot/formulae"
-brew "rcm"
+tap 'thoughtbot/formulae'
+brew 'rcm'
 
-tap "homebrew/cask"
-cask_args appdir: "/Applications"
-cask "adoptopenjdk"
-cask "appcleaner"
-cask "alfred"
-cask "bartender"
-cask "fork"
-cask "hazel"
-cask "postgres-unofficial"
-cask "spotify"
-cask "qlimagesize"
-cask "qlmarkdown"
-cask "qlvideo"
+tap 'homebrew/cask'
+cask_args appdir: '/Applications'
+cask 'adoptopenjdk'
+cask 'appcleaner'
+cask 'alfred'
+cask 'bartender'
+cask 'fork'
+cask 'hazel'
+cask 'postgres-app'
+cask 'spotify'
+cask 'qlimagesize'
+cask 'qlmarkdown'
+cask 'quicklook-video'
 
-mas "Irvue", id: 1039633667
-mas "Magnet", id: 441258766
-mas "Pixelmator", id: 407963104
+mas 'Irvue', id: 1_039_633_667
+mas 'Magnet', id: 441_258_766
+mas 'Pixelmator', id: 407_963_104

@@ -10,7 +10,7 @@ fi
 cd "$(dirname "$0")/.."
 
 # Use homebrew to install packages found in both ./Brewfile and ~/.Brewfile
-brew bundle
+[ -f "Brewfile" ] && brew bundle --file="Brewfile"
 [ -f "$HOME/.Brewfile" ] && brew bundle --file="$HOME/.Brewfile"
 
 # Install + activate Xcode command line tools

@@ -16,7 +16,7 @@ fi
 # Node: install the neovim npm package globally.
 if command -v npm &>/dev/null; then
   echo "Installing neovim npm package."
-  npm install -g neovim
+  npm install -g neovim --force
 fi
 
 # Global bun packages for Neovim tooling.
