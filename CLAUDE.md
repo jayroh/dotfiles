@@ -98,7 +98,18 @@ The Rails projection map in `lua/plugins/projectionist.lua` is the source of tru
 
 ### Treesitter (main branch)
 
-`treesitter.lua` uses **nvim-treesitter's main branch** (rewritten API). Two notable consequences:
+`treesitter.lua` uses **nvim-treesitter's main branch** (rewritten API), which has two hard external requirements. Both fail at parser-install time, not at startup, so the error arrives as an async message *after* nvim is already open:
+
+| Requirement | Symptom when unmet |
+|---|---|
+| **Neovim ≥ 0.12** | `config.lua:171: attempt to index field 'list' (a nil value)` — `norm_languages` calls `vim.list.unique()`, a 0.12 API |
+| **`tree-sitter-cli` ≥ 0.26.1** | `error during "tree-sitter build": the subcommand 'build' wasn't recognized` — `build` landed in CLI 0.22, and the plugin needs 0.26.1+ |
+
+The CLI is a genuine dependency of this config, so it's declared: `tree-sitter-cli` in the `Brewfile` and `Pacmanfile`. It is **deliberately absent from `Aptfile`** — Debian stable (trixie) ships only 0.22.6, which is new enough to have `build` but too old for the plugin, so installing it would swap one failure for a subtler one. On Debian, get it from sid/forky or `cargo install tree-sitter-cli`. Note on Homebrew the CLI is a *separate* formula from the `tree-sitter` library; older brew versions bundled both, so a long-lived machine may have a stale `tree-sitter` that shadows nothing and satisfies nothing.
+
+Because `.tool-versions` is directory-scoped, the neovim requirement is easy to satisfy inside this repo and miss everywhere else: the repo pins 0.12.2, but the **global** pin (`~/.tool-versions` for asdf, `~/.config/mise/config.toml` for mise) is what applies when you edit anything outside the tree. Keep the global neovim ≥ 0.12, or treesitter silently breaks in every other directory.
+
+Two further consequences of the main-branch rewrite:
 
 - The plugin is just a parser installer — there is no `nvim-treesitter.configs.setup()` anymore. We call `require("nvim-treesitter").install({...})` and then a `FileType` autocmd starts highlight + sets `indentexpr` per buffer. To add a parser, append it to the `parsers` list in `treesitter.lua`.
 - **Removed features:** `incremental_selection` (the `<C-space>` mapping) and the textobjects keymaps (`af`/`if`/`ac`/`ic` for treesitter functions/classes) are gone — they're not in the main branch and weren't trivial to port. Vim's built-in `af`/`if` (parens, brackets, quotes) still works. Re-add via `nvim-treesitter-textobjects` (main branch) if you want them back.

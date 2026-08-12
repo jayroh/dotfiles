@@ -42,6 +42,7 @@ brew "stripe/stripe-cli/stripe"
 brew "the_silver_searcher"
 brew "tmux"
 brew "tree"
+brew "tree-sitter-cli" # required by nvim-treesitter (main branch), >= 0.26.1
 brew "universal-ctags/universal-ctags/universal-ctags"
 brew "webp"
 brew "wget"
