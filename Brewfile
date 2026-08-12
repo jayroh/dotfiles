@@ -1,5 +1,4 @@
 brew "ansible"
-brew "autojump"
 brew "awscli"
 brew "bison"
 brew "bison@2.7"
@@ -51,6 +50,7 @@ brew "x265"
 brew "xvid"
 brew "yarn"
 brew "zlib"
+brew "zoxide"
 brew "zsh"
 
 tap "heroku/brew"

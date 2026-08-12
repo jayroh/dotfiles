@@ -47,7 +47,7 @@ Two places use a "drop a file in, it gets picked up" pattern. Prefer adding a ne
 | `setup.d/apt` | Linux (Debian/Ubuntu): install `Aptfile` via `apt-get`. No-ops on mac and on Linux without `apt-get`. |
 | `setup.d/mac` | macOS: `brew bundle` (`./Brewfile` + `~/.Brewfile`), Xcode CLT, Font Book. No-ops on linux. |
 | `setup.d/shell` | `chsh` to zsh, install custom terminfos, clone the pure prompt. |
-| `setup.d/mise` | Install mise (brew/pacman/curl-fallback), run `mise install`, pin lazygit+bun globally. |
+| `setup.d/mise` | Install mise (brew/pacman/curl-fallback), run `mise install`, pin lazygit+bun globally. **No-ops when `~/.asdf` exists** — asdf takes precedence. |
 | `setup.d/bunnai` | `bun install -g @chhoumann/bunnai`. Requires `setup.d/mise` first. |
 | `setup.d/neovim` | Install the `neovim` gem in every mise-managed Ruby; install `pynvim` if Python 3 is present. |
 | `setup.d/tmux` | Clone tpm. Idempotent — no-ops if already present. |
@@ -55,11 +55,23 @@ Two places use a "drop a file in, it gets picked up" pattern. Prefer adding a ne
 
 Order matters in the orchestrator: package managers → shell → mise → bunnai (needs bun from mise) → neovim (needs ruby from mise) → tmux → rcup.
 
-Each platform-specific script self-guards on `uname -s` and exits 0 with a "skipping" message on the wrong OS — so the orchestrator can call all three blindly. Several zsh fragments (`path.zsh`, `ruby.zsh`, `autojump.zsh`, `fzf.zsh`) also detect the platform at runtime. When adding new dependencies, update `Brewfile`, `Pacmanfile`, and `Aptfile` to keep parity — but note `Aptfile` is a tighter curated baseline, so daemons/codecs and other non-baseline tools belong only in the macOS/Arch lists. Linux supports both Arch and Debian/Ubuntu: fzf (`/usr/share/fzf` vs `/usr/share/doc/fzf/examples`), `JAVA_HOME` (`/usr/lib/jvm/default` vs `/usr/lib/jvm/default-java`), and `fd` (aliased to `fdfind` on Debian where the binary is renamed) all have fallbacks.
+Each platform-specific script self-guards on `uname -s` and exits 0 with a "skipping" message on the wrong OS — so the orchestrator can call all three blindly. Several zsh fragments (`path.zsh`, `ruby.zsh`, `fzf.zsh`) also detect the platform at runtime. When adding new dependencies, update `Brewfile`, `Pacmanfile`, and `Aptfile` to keep parity — but note `Aptfile` is a tighter curated baseline, so daemons/codecs and other non-baseline tools belong only in the macOS/Arch lists. Linux supports both Arch and Debian/Ubuntu: fzf (`/usr/share/fzf` vs `/usr/share/doc/fzf/examples`), `JAVA_HOME` (`/usr/lib/jvm/default` vs `/usr/lib/jvm/default-java`), and `fd` (aliased to `fdfind` on Debian where the binary is renamed) all have fallbacks.
 
 ## Runtime versions
 
-`mise` manages language runtimes and reads `.tool-versions` at the repo root (currently neovim 0.12.2, nodejs 24.3.0, lua 5.1, stylua 2.1.0, ruby 3.4.7). `setup.d/mise` installs mise (Homebrew on mac, `pacman` on arch, `mise.run` curl-installer otherwise), runs `mise install` against `.tool-versions`, then pins global defaults with `mise use -g` (lazygit, bun, python). Activation happens via `tag-zsh/config/zsh/zz-mise.zsh` (named `zz-*` so it sources last and its `$PATH` prepend wins) and the equivalent line in `tag-bash/bashrc`.
+Two runtime managers are supported, and **`.tool-versions` is deliberately tool-agnostic** so both read the same file. `mise` is the default for new machines; **asdf takes precedence wherever `~/.asdf` already exists**, so a machine with runtimes already provisioned under asdf keeps using them instead of re-downloading everything under mise.
+
+Activation lives in `tag-zsh/config/zsh/zz-runtime.zsh` (named `zz-*` so it sources last and its `$PATH` prepend survives `path.zsh`'s wholesale `path=(...)` reset), with the equivalent block in `tag-bash/bashrc`. The precedence chain is:
+
+| Condition | Activation |
+|---|---|
+| `~/.asdf/asdf.sh` exists | `source ~/.asdf/asdf.sh` (asdf ≤ 0.15, shell-sourced) |
+| `~/.asdf/shims` exists | prepend `~/.asdf/shims` to `$PATH` (asdf ≥ 0.16 — Go rewrite, no `asdf.sh`) |
+| `mise` on `$PATH` | `eval "$(mise activate zsh)"` |
+
+`.tool-versions` at the repo root currently pins neovim 0.12.2, nodejs 24.3.0, lua 5.1, stylua 2.1.0, ruby 3.4.7. On mise machines, `setup.d/mise` installs mise (Homebrew on mac, `pacman` on arch, `mise.run` curl-installer otherwise), runs `mise install` against `.tool-versions`, then pins global defaults with `mise use -g` (lazygit, bun, python); it exits early on asdf machines. **asdf machines are provisioned manually** — `setup.d/` has no asdf equivalent, and `setup.d/neovim`'s Ruby/Python provider steps are mise-guarded, so they no-op there.
+
+Because `.tool-versions` is directory-scoped, a runtime's **global** pin (`~/.tool-versions` for asdf, `~/.config/mise/config.toml` for mise) is what applies outside this tree — keep the two in sync for anything the nvim config depends on.
 
 Note the split: `.tool-versions` is **directory-scoped** (active only within the repo tree), while `mise use -g` writes `~/.config/mise/config.toml` for **user-wide** defaults. Tools that must be available everywhere (lazygit, bun, python) are global pins in `setup.d/mise`, not `.tool-versions` entries.
 

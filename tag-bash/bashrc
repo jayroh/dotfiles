@@ -112,5 +112,13 @@ if ! shopt -oq posix; then
 fi
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
-command -v mise &>/dev/null && eval "$(mise activate bash)"
+# Runtime version manager: asdf wins when present, mise otherwise.
+# See tag-zsh/config/zsh/zz-runtime.zsh for the rationale.
+if [ -f ~/.asdf/asdf.sh ]; then
+  . ~/.asdf/asdf.sh                       # asdf <= 0.15 (shell-sourced)
+elif [ -d ~/.asdf/shims ]; then
+  export PATH="$HOME/.asdf/shims:$PATH"   # asdf >= 0.16 (Go binary, no asdf.sh)
+elif command -v mise &>/dev/null; then
+  eval "$(mise activate bash)"
+fi
 export GH_CONFIG_DIR=/home/hermes/.config/gh

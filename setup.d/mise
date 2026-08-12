@@ -1,8 +1,18 @@
 #!/bin/bash
 # Install mise and provision runtimes from .tool-versions.
+#
+# Skipped entirely on machines already running asdf — asdf takes precedence
+# (see tag-zsh/config/zsh/zz-runtime.zsh), so installing mise alongside it
+# would provision a second copy of every runtime that nothing ever activates.
 set -e
 
 cd "$(dirname "$0")/.."
+
+if [[ -f "$HOME/.asdf/asdf.sh" || -d "$HOME/.asdf/shims" ]]; then
+  echo "asdf detected at ~/.asdf — skipping mise (asdf takes precedence)."
+  echo "   Runtimes come from asdf; .tool-versions is read by both."
+  exit 0
+fi
 
 # Install mise if not already present
 if ! command -v mise &>/dev/null; then
