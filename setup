@@ -18,6 +18,7 @@ cd "$(dirname "$0")"
 ./setup.d/neovim
 ./setup.d/tmux
 ./setup.d/omarchy
+./setup.d/prune   # clear symlinks orphaned by deleted/renamed files, then relink
 ./setup.d/rcup
 
 echo ""

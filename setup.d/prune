@@ -1,0 +1,79 @@
+#!/bin/bash
+# Remove stale symlinks — links pointing into this repo whose target is gone.
+#
+# rcm's `rcup` creates symlinks but never removes them, so deleting or renaming
+# a tracked file leaves a dangling symlink in $HOME on every machine that had
+# the old version. Consumers that enumerate a directory rather than a known
+# filename then fail loudly on the corpse:
+#
+#   - tag-zsh/zshrc's `for config_file (~/.config/zsh/*.zsh(N-.))` loop
+#     (the (N-.) qualifier makes it skip dead links, but only for zsh)
+#   - lazy.nvim's `import = "plugins"`, which errors with
+#     "cannot open .../<name>.lua: No such file or directory"
+#
+# Only symlinks whose target resolves inside this repo AND no longer exists are
+# removed. Everything else in $HOME is left strictly alone.
+#
+# Usage: setup.d/prune [--dry-run|-n]
+set -e
+
+cd "$(dirname "$0")/.."
+DOTFILES="$(pwd -P)"
+
+dry_run=false
+if [[ "$1" == "--dry-run" || "$1" == "-n" ]]; then
+  dry_run=true
+fi
+
+# Directories rcm populates, derived from the tag trees themselves. A stale
+# link's own filename is gone from the repo, but its parent directory is
+# almost always still tracked — that's what makes the link discoverable.
+# (Limitation: if an entire tracked directory is deleted, orphans below the
+# top level of $HOME won't be found. Delete such a directory by hand.)
+scan_dirs() {
+  echo "$HOME"
+  local tag rel d
+  for tag in "$DOTFILES"/tag-*/; do
+    [ -d "$tag" ] || continue
+    while read -r d; do
+      rel="${d#"$tag"}"
+      echo "$HOME/.$rel"
+    done < <(find "$tag" -mindepth 1 -type d 2>/dev/null)
+  done
+}
+
+stale=()
+while read -r dir; do
+  [ -d "$dir" ] || continue
+  while read -r link; do
+    [ -n "$link" ] || continue
+    # Ours? Target must point inside this repo.
+    case "$(readlink "$link")" in
+      "$DOTFILES"/*) ;;
+      *) continue ;;
+    esac
+    # Dangling? -e follows the link, so this is false only when the target is gone.
+    [ -e "$link" ] || stale+=("$link")
+  done < <(find "$dir" -maxdepth 1 -type l 2>/dev/null)
+done < <(scan_dirs | sort -u)
+
+if [ ${#stale[@]} -eq 0 ]; then
+  echo "✅ No stale symlinks."
+  exit 0
+fi
+
+echo "Stale symlinks (target no longer in the repo):"
+tilde="~"
+while read -r link; do
+  if $dry_run; then
+    echo "   would remove  ${link/#"$HOME"/$tilde}"
+  else
+    rm "$link"
+    echo "   removed  ${link/#"$HOME"/$tilde}"
+  fi
+done < <(printf '%s\n' "${stale[@]}" | sort)
+
+if $dry_run; then
+  echo ""
+  echo "Dry run — nothing changed. Re-run without --dry-run to remove."
+fi

@@ -2,7 +2,9 @@
 [[ -f ~/.zshrc_private ]] && source ~/.zshrc_private
 
 # source the base zshrc configurations first
-for config_file (~/.config/zsh/*.zsh) source $config_file
+# (N-.) = don't error on no matches, follow symlinks, regular files only — so a
+# symlink left dangling by a renamed/removed fragment is skipped, not sourced.
+for config_file (~/.config/zsh/*.zsh(N-.)) source $config_file
 
 [ -s "$HOMEBREW_HOME/nvm/nvm.sh" ]                    && . "$HOMEBREW_HOME/nvm/nvm.sh"
 [ -s "$HOMEBREW_HOME/nvm/etc/bash_completion.d/nvm" ] && . "$HOMEBREW_HOME/nvm/etc/bash_completion.d/nvm"

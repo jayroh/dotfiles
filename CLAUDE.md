@@ -34,7 +34,7 @@ There is no test suite, linter, or CI in this repo. The `tag-ruby/rails_template
 
 Two places use a "drop a file in, it gets picked up" pattern. Prefer adding a new fragment over editing a monolith:
 
-- **zsh fragments** — `tag-zsh/zshrc` does `for config_file (~/.config/zsh/*.zsh) source $config_file`. Anything in `tag-zsh/config/zsh/*.zsh` is loaded automatically. Order is glob-sorted; if a fragment must run before/after another, name it accordingly.
+- **zsh fragments** — `tag-zsh/zshrc` does `for config_file (~/.config/zsh/*.zsh(N-.)) source $config_file`. Anything in `tag-zsh/config/zsh/*.zsh` is loaded automatically. Order is glob-sorted; if a fragment must run before/after another, name it accordingly. The `(N-.)` qualifier matters: `rcup` creates symlinks but never removes stale ones, so renaming or deleting a fragment leaves a dangling symlink in `~/.config/zsh` on every machine that had the old one. `-` follows symlinks and `.` keeps only regular files, so dead links are skipped instead of throwing `no such file or directory` at every shell start; `N` keeps an empty glob from erroring.
 - **nvim plugins** — `tag-nvim/config/nvim/lua/config/lazy.lua` calls `require("lazy").setup({ spec = { { import = "plugins" } } })`. Any file in `tag-nvim/config/nvim/lua/plugins/*.lua` returning a lazy.nvim spec is loaded automatically.
 
 ## Setup architecture
@@ -51,9 +51,14 @@ Two places use a "drop a file in, it gets picked up" pattern. Prefer adding a ne
 | `setup.d/bunnai` | `bun install -g @chhoumann/bunnai`. Requires `setup.d/mise` first. |
 | `setup.d/neovim` | Install the `neovim` gem in every mise-managed Ruby; install `pynvim` if Python 3 is present. |
 | `setup.d/tmux` | Clone tpm. Idempotent — no-ops if already present. |
+| `setup.d/prune` | Remove symlinks pointing into this repo whose target was deleted/renamed. `--dry-run` to preview. |
 | `setup.d/rcup` | Final symlink step (`rcup -t … -t …`). |
 
-Order matters in the orchestrator: package managers → shell → mise → bunnai (needs bun from mise) → neovim (needs ruby from mise) → tmux → rcup.
+Order matters in the orchestrator: package managers → shell → mise → bunnai (needs bun from mise) → neovim (needs ruby from mise) → tmux → prune (clear orphans before relinking) → rcup.
+
+### Deleting or renaming a tracked file
+
+`rcup` creates symlinks but **never removes them**, so deleting or renaming any tracked file strands a dangling symlink in `$HOME` on every machine that had the old version. Consumers that enumerate a directory — rather than look up a known filename — then fail on the corpse: the zsh fragment loop, and lazy.nvim's `import = "plugins"` (which aborts init with `cannot open .../<name>.lua`). Run `setup.d/prune` after any such change; `./setup` now does it automatically. The zsh loop additionally self-defends via its `(N-.)` glob qualifier, but nvim has no equivalent.
 
 Each platform-specific script self-guards on `uname -s` and exits 0 with a "skipping" message on the wrong OS — so the orchestrator can call all three blindly. Several zsh fragments (`path.zsh`, `ruby.zsh`, `fzf.zsh`) also detect the platform at runtime. When adding new dependencies, update `Brewfile`, `Pacmanfile`, and `Aptfile` to keep parity — but note `Aptfile` is a tighter curated baseline, so daemons/codecs and other non-baseline tools belong only in the macOS/Arch lists. Linux supports both Arch and Debian/Ubuntu: fzf (`/usr/share/fzf` vs `/usr/share/doc/fzf/examples`), `JAVA_HOME` (`/usr/lib/jvm/default` vs `/usr/lib/jvm/default-java`), and `fd` (aliased to `fdfind` on Debian where the binary is renamed) all have fallbacks.
 
