@@ -38,6 +38,15 @@ echo "Pinning versions globally for tools not in .tool-versions ..."
 # distro Python is externally-managed (PEP 668) and blocks `pip install`.
 mise use -g lazygit@latest bun@latest python@3.13.14
 
+if ! command -v herdr &>/dev/null; then
+  mise use -g herdr
+
+  if [[ -d "$HOME/.config/herdr/vim-herdr-navigation" ]]; then
+    mkdir -p ~/.config/herdr
+    git clone https://github.com/paulbkim-dev/vim-herdr-navigation.git ~/.config/herdr/vim-herdr-navigation
+  fi
+fi
+
 # Optional: uncomment to install other languages globally
 # mise use -g golang@latest rust@latest
 
