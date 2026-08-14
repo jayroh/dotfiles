@@ -20,6 +20,7 @@ cd "$(dirname "$0")"
 ./setup.d/omarchy
 ./setup.d/prune   # clear symlinks orphaned by deleted/renamed files, then relink
 ./setup.d/rcup
+./setup.d/herdr
 
 echo ""
 echo "✅ Setup complete."

@@ -1,0 +1,92 @@
+#!/bin/bash
+# Install the vim-herdr-navigation plugin and register it with herdr, in
+# EVERY running herdr session.
+#
+# herdr's plugin registry is PER-SESSION: `herdr session list` shows each
+# session with its own config/session directory (e.g. default at
+# ~/.config/herdr, a named session at ~/.config/herdr/sessions/<name>), and
+# `herdr plugin link` writes into that session's own plugins.json. But the
+# Ctrl+h/j/k/l bindings in config.toml (`type = "plugin_action"`) are SHARED
+# across all sessions. So linking into just one session leaves every other
+# session with dead keybindings that report "plugin action not found" — this
+# script must target every running session's own socket via
+# HERDR_SOCKET_PATH, not just the default's.
+#
+# herdr itself is not this script's job: macOS gets it from the Brewfile, Linux
+# from the `mise use -g herdr` pin in setup.d/mise. This script only provisions
+# the plugin, so it no-ops when herdr is genuinely unavailable.
+#
+# On a fresh Linux+mise machine, `mise use -g herdr` (setup.d/mise) doesn't put
+# herdr on THIS script's PATH within the same ./setup run: the shim dir only
+# joins PATH via `eval "$(mise activate zsh)"` in the user's zshrc, which this
+# bash script never sources. setup.d/llm hits the identical problem and solves
+# it with `mise exec`; do the same here rather than requiring a second
+# `./setup` in a fresh shell.
+#
+# Deliberately standalone rather than folded into setup.d/mise: that script
+# exits early on asdf machines, which would leave them without the plugin.
+set -e
+
+PLUGIN_REPO="https://github.com/paulbkim-dev/vim-herdr-navigation.git"
+PLUGIN_DIR="$HOME/.config/herdr/vim-herdr-navigation"
+
+if command -v herdr &>/dev/null; then
+  HERDR=(herdr)
+elif command -v mise &>/dev/null && mise ls --installed herdr 2>/dev/null | grep -q .; then
+  HERDR=(mise exec herdr -- herdr)
+else
+  echo "⏭️  herdr not found on PATH — skipping vim-herdr-navigation."
+  exit 0
+fi
+
+if [[ -d "$PLUGIN_DIR/.git" ]]; then
+  echo "Updating vim-herdr-navigation ..."
+  git -C "$PLUGIN_DIR" pull --ff-only || echo "   (local changes — skipping update)"
+else
+  echo "Cloning vim-herdr-navigation ..."
+  mkdir -p "$(dirname "$PLUGIN_DIR")"
+  git clone "$PLUGIN_REPO" "$PLUGIN_DIR"
+fi
+
+# `herdr session list --json` is safe to call with no server running at all
+# (fresh machine, ./setup's first-ever run): it reports the default session
+# as not running rather than erroring, so there's nothing to bootstrap here.
+if ! command -v jq &>/dev/null; then
+  echo "⚠️  jq not found — cannot enumerate herdr sessions, linking into the default session only."
+  "${HERDR[@]}" plugin link "$PLUGIN_DIR"
+  echo "✅ vim-herdr-navigation linked into 'default'."
+  exit 0
+fi
+
+SESSIONS_JSON=$("${HERDR[@]}" session list --json 2>/dev/null || echo '{"sessions":[]}')
+RUNNING_SESSIONS=$(echo "$SESSIONS_JSON" | jq -r '.sessions[] | select(.running) | .name + "\t" + .socket_path')
+
+if [[ -z "$RUNNING_SESSIONS" ]]; then
+  echo "⏭️  No running herdr sessions — skipping vim-herdr-navigation link (nothing to link into yet)."
+  exit 0
+fi
+
+# Idempotent per session: repairs a clone that was never registered. Verified
+# against herdr 0.7.4 — re-linking an already-linked plugin exits 0 with a
+# plugin_linked payload, so there is nothing to tolerate here. A genuine link
+# failure (bad manifest, permissions) for one session is still fatal to the
+# script overall — collected into FAILED and reported via a non-zero exit at
+# the end — but it must not stop the remaining sessions from being attempted,
+# so it isn't `||`-swallowed at the point of failure, only deferred.
+FAILED=()
+while IFS=$'\t' read -r name socket; do
+  echo "Linking vim-herdr-navigation into session '$name' ..."
+  if HERDR_SOCKET_PATH="$socket" "${HERDR[@]}" plugin link "$PLUGIN_DIR"; then
+    echo "✅ vim-herdr-navigation linked into '$name'."
+  else
+    echo "❌ vim-herdr-navigation failed to link into '$name'."
+    FAILED+=("$name")
+  fi
+done <<<"$RUNNING_SESSIONS"
+
+if [[ ${#FAILED[@]} -gt 0 ]]; then
+  echo "❌ vim-herdr-navigation failed to link into: ${FAILED[*]}"
+  exit 1
+fi
+
+echo "✅ vim-herdr-navigation linked into all running sessions."

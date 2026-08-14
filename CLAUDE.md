@@ -34,7 +34,7 @@ There is no test suite, linter, or CI in this repo. The `tag-ruby/rails_template
 
 Two places use a "drop a file in, it gets picked up" pattern. Prefer adding a new fragment over editing a monolith:
 
-- **zsh fragments** — `tag-zsh/zshrc` does `for config_file (~/.config/zsh/*.zsh(N-.)) source $config_file`. Anything in `tag-zsh/config/zsh/*.zsh` is loaded automatically. Order is glob-sorted; if a fragment must run before/after another, name it accordingly. The `(N-.)` qualifier matters: `rcup` creates symlinks but never removes stale ones, so renaming or deleting a fragment leaves a dangling symlink in `~/.config/zsh` on every machine that had the old one. `-` follows symlinks and `.` keeps only regular files, so dead links are skipped instead of throwing `no such file or directory` at every shell start; `N` keeps an empty glob from erroring.
+- **zsh fragments** — `tag-zsh/zshrc` does `for config_file (~/.config/zsh/*.zsh(N-.)) source $config_file`. Anything in `tag-zsh/config/zsh/*.zsh` is loaded automatically. Order is glob-sorted; if a fragment must run before/after another, name it accordingly. The `(N-.)` qualifier matters: `rcup` creates symlinks but never removes stale ones, so renaming or deleting a fragment leaves a dangling symlink in `~/.config/zsh` on every machine that had the old one. `-` follows symlinks and `.` keeps only regular files, so dead links are skipped instead of throwing `no such file or directory` at every shell start; `N` keeps an empty glob from erroring. `tag-zsh/config/zsh/herdr.zsh` is one such fragment gone dangling-symlink-safe: alongside the `herdr()` plugin-link wrapper it now defines `t()`, the project-launcher (session named after `$PWD`'s basename, tabs `vim`/`server`/`claude`) ported from tmux to herdr-only — `tmux.zsh`, which used to hold it, is deleted.
 - **nvim plugins** — `tag-nvim/config/nvim/lua/config/lazy.lua` calls `require("lazy").setup({ spec = { { import = "plugins" } } })`. Any file in `tag-nvim/config/nvim/lua/plugins/*.lua` returning a lazy.nvim spec is loaded automatically.
 
 ## Setup architecture
@@ -47,14 +47,19 @@ Two places use a "drop a file in, it gets picked up" pattern. Prefer adding a ne
 | `setup.d/apt` | Linux (Debian/Ubuntu): install `Aptfile` via `apt-get`. No-ops on mac and on Linux without `apt-get`. |
 | `setup.d/mac` | macOS: `brew bundle` (`./Brewfile` + `~/.Brewfile`), Xcode CLT, Font Book. No-ops on linux. |
 | `setup.d/shell` | `chsh` to zsh, install custom terminfos, clone the pure prompt. |
-| `setup.d/mise` | Install mise (brew/pacman/curl-fallback), run `mise install`, pin lazygit+bun globally. **No-ops when `~/.asdf` exists** — asdf takes precedence. |
+| `setup.d/mise` | Install mise (brew/pacman/curl-fallback), run `mise install`, pin lazygit, bun, and python globally; also pins `herdr` globally when it's absent from `PATH` — the Linux provisioning path for the binary, since herdr has no AUR package (macOS gets it from the Brewfile instead). **No-ops when `~/.asdf` exists** — asdf takes precedence. |
 | `setup.d/bunnai` | `bun install -g @chhoumann/bunnai`. Requires `setup.d/mise` first. |
+| `setup.d/llm` | Install the `llm` CLI into mise-managed Python via `pip install llm`. Requires `setup.d/mise` first. |
 | `setup.d/neovim` | Install the `neovim` gem in every mise-managed Ruby; install `pynvim` if Python 3 is present. |
 | `setup.d/tmux` | Clone tpm. Idempotent — no-ops if already present. |
+| `setup.d/omarchy` | Linux (Omarchy): remove Omarchy-seeded nvim plugin files and its `tmux.conf` that would otherwise shadow this repo's own. No-ops when `~/.config/omarchy` is absent. |
 | `setup.d/prune` | Remove symlinks pointing into this repo whose target was deleted/renamed. `--dry-run` to preview. |
 | `setup.d/rcup` | Final symlink step (`rcup -t … -t …`). |
+| `setup.d/herdr` | Clone `vim-herdr-navigation` into `~/.config/herdr/` and `herdr plugin link` it into **every currently-running herdr session** (its plugin registry is per-session — see below), falling back to `mise exec` when herdr is mise-managed but not yet on this script's `PATH`. No-ops when herdr is genuinely unavailable or no session is running yet. |
 
-Order matters in the orchestrator: package managers → shell → mise → bunnai (needs bun from mise) → neovim (needs ruby from mise) → tmux → prune (clear orphans before relinking) → rcup.
+Order matters in the orchestrator: package managers → shell → mise → bunnai (needs bun from mise) → llm (needs mise's Python) → neovim (needs ruby from mise) → tmux → omarchy → prune (clear orphans before relinking) → rcup → herdr (no ordering dependency on the symlink steps, so it runs last to keep a network failure there from blocking symlinking on a fresh machine).
+
+herdr's plugin registry is per-session (each session has its own `plugins.json`), but `./setup` can only link the plugin into sessions that already exist when it runs. `tag-zsh/config/zsh/herdr.zsh` covers the gap: it wraps `herdr` so that `herdr --session <name>` for a not-yet-existing session backgrounds a poller (via `HERDR_SOCKET_PATH` + `jq`) that links the plugin into the new session's registry the moment its server comes up (well under a second), racing harmlessly against the foreground TUI attach. Every other invocation — including re-attaching to a session that already exists — passes straight through to `command herdr` untouched, and the whole fragment no-ops silently if `herdr` or `jq` isn't on `PATH`.
 
 ### Deleting or renaming a tracked file
 
@@ -74,11 +79,11 @@ Activation lives in `tag-zsh/config/zsh/zz-runtime.zsh` (named `zz-*` so it sour
 | `~/.asdf/shims` exists | prepend `~/.asdf/shims` to `$PATH` (asdf ≥ 0.16 — Go rewrite, no `asdf.sh`) |
 | `mise` on `$PATH` | `eval "$(mise activate zsh)"` |
 
-`.tool-versions` at the repo root currently pins neovim 0.12.2, nodejs 24.3.0, lua 5.1, stylua 2.1.0, ruby 3.4.7. On mise machines, `setup.d/mise` installs mise (Homebrew on mac, `pacman` on arch, `mise.run` curl-installer otherwise), runs `mise install` against `.tool-versions`, then pins global defaults with `mise use -g` (lazygit, bun, python); it exits early on asdf machines. **asdf machines are provisioned manually** — `setup.d/` has no asdf equivalent, and `setup.d/neovim`'s Ruby/Python provider steps are mise-guarded, so they no-op there.
+`.tool-versions` at the repo root currently pins neovim 0.12.2, nodejs 24.3.0, lua 5.1, stylua 2.1.0, ruby 3.4.7. On mise machines, `setup.d/mise` installs mise (Homebrew on mac, `pacman` on arch, `mise.run` curl-installer otherwise), runs `mise install` against `.tool-versions`, then pins global defaults with `mise use -g` (lazygit, bun, python unconditionally, plus `herdr` when it's not already on `PATH`); it exits early on asdf machines. **asdf machines are provisioned manually** — `setup.d/` has no asdf equivalent, and `setup.d/neovim`'s Ruby/Python provider steps are mise-guarded, so they no-op there.
 
 Because `.tool-versions` is directory-scoped, a runtime's **global** pin (`~/.tool-versions` for asdf, `~/.config/mise/config.toml` for mise) is what applies outside this tree — keep the two in sync for anything the nvim config depends on.
 
-Note the split: `.tool-versions` is **directory-scoped** (active only within the repo tree), while `mise use -g` writes `~/.config/mise/config.toml` for **user-wide** defaults. Tools that must be available everywhere (lazygit, bun, python) are global pins in `setup.d/mise`, not `.tool-versions` entries.
+Note the split: `.tool-versions` is **directory-scoped** (active only within the repo tree), while `mise use -g` writes `~/.config/mise/config.toml` for **user-wide** defaults. Tools that must be available everywhere (lazygit, bun, python) are global pins in `setup.d/mise`, not `.tool-versions` entries. `herdr` is pinned there too, but for a different reason and only conditionally: it has no AUR package, so `mise use -g herdr` (guarded by `command -v herdr`, so a no-op once herdr is already installed) is Linux's provisioning path for the binary; macOS gets it instead from `brew 'herdr'` in the Brewfile.
 
 Python is a global pin (`python@3.13.14`) precisely so it supersedes the system interpreter user-wide. On Debian/Ubuntu (and recent Arch) the apt/pacman Python is marked externally-managed (PEP 668), so `pip install` is blocked at the system level. The mise standalone Python ships its own unmanaged `pip`, and because `mise activate` prepends its bin dir, `python`/`python3`/`pip`/`pip3` resolve to mise's ahead of `/usr/bin` — superseding the system interpreter without removing it (system `python3` stays as a base/ansible dependency). Consequently the package lists no longer install `python3-pip`/`python3-pynvim` (apt), `python-pip`/`python-pynvim` (pacman), or `python@3` (brew); `setup.d/neovim` installs the `pynvim` provider into mise's Python via `mise exec`.
 
@@ -95,6 +100,14 @@ If you encounter references to env vars like `TRANSMISSION_USER_NAME` in aliases
 Full-Lua config, **lazy.nvim** plugin manager, leader `,`. The `lua/plugins/` directory is one-file-per-plugin (or per closely-related group). LSP setup in `lua/plugins/lsp.lua` uses Mason but prefers `bundle exec` for `ruby_lsp` and `rubocop` when a `Gemfile` is present in the project root — this is intentional, don't replace with bare-Mason invocations. Format-on-save runs through **conform.nvim** (`lua/plugins/autoformat.lua`); JS/TS uses **oxfmt**, not prettier.
 
 The Rails projection map in `lua/plugins/projectionist.lua` is the source of truth for `:A` / `<leader>pa` alternate-file navigation — extend it there when adding new file-type pairs.
+
+### herdr runner
+
+`lua/herdr/runner.lua` owns every `herdr` CLI call in this config; `lua/config/herdr.lua` binds keymaps (`<leader>rs`/`rn`/`rk`/`rf`/`rc`, `<leader>ru`/`bo` for rubocop, `<leader>ab` for Claude Code, `<leader>tj`/`tl` for scratch panes) and the `:Herdr*` commands to it. Nothing else shells out to `herdr` directly.
+
+It replaced **vim-tmux-runner** and **vimux**, both removed outright. `vim-tmux-navigator` (`lua/plugins/tmux.lua`) is a separate concern and still present — it's the tmux fallback for `vim-herdr-navigation`'s pane-navigation mappings, not the runner. `vim-test` (`lua/plugins/testing.lua`) reaches the runner through a custom strategy (`g:test#custom_strategies.herdr`) rather than calling it directly, falling back to vim-test's built-in `basic` strategy outside herdr; `<leader>t`/`T`/`a`/`l`/`g` are unchanged.
+
+Detection is `$HERDR_PANE_ID`, never `$TMUX` — outside a herdr pane every entry point warns once and no-ops rather than throwing, so a tmux-only or bare-terminal nvim still starts cleanly. The runner pane itself is lazy: created on first send, cached by pane id, revalidated against `herdr pane list` on each use, and silently re-split if closed by hand. `<leader>tv`/`<leader>th` (tmux `select-layout`, from the old runner) were dropped — herdr has no equivalent.
 
 ### Treesitter (main branch)
 

@@ -70,4 +70,4 @@ vim.api.nvim_create_autocmd("FileType", {
 -- load configs
 require("config.lazy")
 require("config.keymaps")
-require("config.tmux")
+require("config.herdr")
