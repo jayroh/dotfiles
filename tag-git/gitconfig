@@ -55,11 +55,28 @@
   compactionHeuristic = true
 [init]
   defaultBranch = main
+# Authenticate HTTPS pushes/fetches with the gh token instead of a PAT.
+# `gh auth setup-git` writes an absolute path here; kept PATH-relative so it
+# also resolves on Linux, where gh is /usr/bin/gh rather than /opt/homebrew/bin.
+# The empty `helper =` line resets any inherited helper -- gh's own convention.
 [credential "https://github.com"]
-	helper = 
-	helper = !/opt/homebrew/bin/gh auth git-credential
+	helper =
+	helper = !gh auth git-credential
 [credential "https://gist.github.com"]
-	helper = 
-	helper = !/opt/homebrew/bin/gh auth git-credential
+	helper =
+	helper = !gh auth git-credential
+
+# TEMPORARY -- added on airplane wifi, which accepts TCP on any port but only
+# passes real traffic for HTTP/HTTPS, so SSH hangs during banner exchange on
+# both 22 and ssh.github.com:443. Rewrites github SSH remotes to HTTPS without
+# touching any repo's stored remote. Remove once back on a normal network:
+#   git config --global --unset url."https://github.com/".insteadOf
 [url "https://github.com/"]
 	insteadOf = git@github.com:
+
+# Machine-local overrides, never committed -- same idea as ~/.zshrc_private.
+# Last include wins, so anything here overrides the settings above. Note that
+# `git config --global` still writes to THIS file (~/.gitconfig is a symlink
+# into the dotfiles repo), so machine-specific tweaks belong in the local file.
+[include]
+	path = ~/.gitconfig_local
