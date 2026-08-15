@@ -60,7 +60,7 @@ function gpom() {
 alias resolve="for link in \`git show -s --format=%B HEAD | grep 'https.*\(jira\|honeybadger\)'\`; open \$link;"
 
 # rcm
-alias rcup='rcup -x setup'
+alias rcup='rcup -x setup -x bundle/cache'
 alias rcupall="rcup `ls ~/.dotfiles | grep tag- | sed 's/^tag-/-t /' | tr "\n" ' '`"
 alias reload_zsh='source ~/.zshrc'
 alias reload!='rcupall; reload_zsh'
