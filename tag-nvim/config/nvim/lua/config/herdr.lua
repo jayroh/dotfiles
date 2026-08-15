@@ -1,7 +1,24 @@
--- Keymaps and commands for the herdr runner pane.
+-- Keymaps and commands for the herdr runner pane, plus the herdr navigation
+-- bindings.
 --
 -- Replaces lua/config/tmux.lua (raw `tmux` shell-outs) and the vim-tmux-runner
 -- keymaps that used to live in lua/plugins/tmux.lua.
+
+-- <C-h/j/k/l> navigation across nvim splits and herdr panes.
+--
+-- Loaded here rather than from a lazy spec because there is no plugin left to
+-- attach it to: vim-tmux-navigator used to be declared purely so the script's
+-- `$TMUX` fallback (editor/nvim.lua:29-31) had `:TmuxNavigate*` to call, and
+-- that branch is unreachable without tmux. init.lua requires this file after
+-- config.lazy, which satisfies the script's "load it after your plugins so it
+-- wins" requirement -- trivially now, since nothing else maps these keys.
+--
+-- Guarded: setup.d/herdr installs the plugin, but on a machine where setup has
+-- not run yet an unguarded dofile would throw during startup.
+local herdr_nav = vim.fn.expand("~/.config/herdr/vim-herdr-navigation/editor/nvim.lua")
+if vim.uv.fs_stat(herdr_nav) ~= nil then
+	dofile(herdr_nav)
+end
 
 local runner = require("herdr.runner")
 
