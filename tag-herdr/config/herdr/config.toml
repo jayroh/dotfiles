@@ -1,10 +1,11 @@
 onboarding = false
 
+[ui]
+pane_borders = false
+show_agent_labels_on_pane_borders = true
+
 [ui.toast]
 delivery = "herdr"
-
-[ui]
-show_agent_labels_on_pane_borders = true
 
 [keys]
 prefix = "ctrl+space"
