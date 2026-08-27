@@ -59,20 +59,6 @@
           }
         }
       },
-      "autojump": {
-        "version": "22.5.3_3",
-        "bottle": {
-          "rebuild": 2,
-          "root_url": "https://ghcr.io/v2/homebrew/core",
-          "files": {
-            "all": {
-              "cellar": ":any_skip_relocation",
-              "url": "https://ghcr.io/v2/homebrew/core/autojump/blobs/sha256:4d351b7fec964e67bd52e43d457b573edaa772f345f06fb66e6d74c03a4bfa55",
-              "sha256": "4d351b7fec964e67bd52e43d457b573edaa772f345f06fb66e6d74c03a4bfa55"
-            }
-          }
-        }
-      },
       "asdf": {
         "version": "0.8.1_1",
         "bottle": {
