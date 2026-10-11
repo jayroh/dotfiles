@@ -112,6 +112,11 @@ if ! shopt -oq posix; then
 fi
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+# Pin GOPATH/GOBIN so asdf-golang doesn't send `go install` binaries to a
+# version-specific dir. See tag-zsh/config/zsh/go.zsh.
+export GOPATH="$HOME/go"
+export GOBIN="$GOPATH/bin"
+export PATH="$GOBIN:$PATH"
 # Runtime version manager: asdf wins when present, mise otherwise.
 # See tag-zsh/config/zsh/zz-runtime.zsh for the rationale.
 if [ -f ~/.asdf/asdf.sh ]; then
