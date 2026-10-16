@@ -42,6 +42,7 @@
   spec = "!bundle exec rspec `git ls-files --modified --others spec | grep _spec`"
   unstage = reset
   wip = !git add . && git commit -m '[ci skip] WIP'
+  me = "!f() { n=$(git config --global user.name); e=$(git config --global user.email); if [ -z \"$n\" ] || [ -z \"$e\" ]; then echo \"git me: global user.name/user.email not set\" >&2; return 1; fi; git -c user.name=\"$n\" -c user.email=\"$e\" commit \"$@\"; }; f"
 
   # Typos
   puhs = push
@@ -72,7 +73,6 @@
 # touching any repo's stored remote. Remove once back on a normal network:
 #   git config --global --unset url."https://github.com/".insteadOf
 [url "https://github.com/"]
-	insteadOf = git@github.com:
 
 # Machine-local overrides, never committed -- same idea as ~/.zshrc_private.
 # Last include wins, so anything here overrides the settings above. Note that
@@ -80,3 +80,5 @@
 # into the dotfiles repo), so machine-specific tweaks belong in the local file.
 [include]
 	path = ~/.gitconfig_local
+[credential]
+	helper = store
