@@ -9,3 +9,7 @@ clipboard-write = allow
 copy-on-select = true
 theme = Catppuccin Frappe
 bold-is-bright = true
+keybind = alt+cmd+left=unbind
+keybind = alt+cmd+right=unbind
+keybind = alt+cmd+up=unbind
+keybind = alt+cmd+down=unbind
