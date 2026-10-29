@@ -27,3 +27,4 @@ eval "$(direnv hook zsh)"
 # start up pure
 autoload -U promptinit; promptinit
 prompt pure
+eval "$(atuin init zsh)"
