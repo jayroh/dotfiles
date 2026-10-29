@@ -2,10 +2,17 @@
 # Install bunnai (AI commit-message helper for lazygit) globally via bun.
 set -e
 
-if ! command -v bun &>/dev/null; then
-  echo "⚠️  bun not on PATH. Run setup.d/mise first (or activate mise in this shell)."
+# Call bun via mise's install path directly rather than relying on PATH —
+# this script runs standalone from ./setup, outside any shell that has run
+# `mise activate`, so a bare `bun`/`command -v bun` can't see it yet.
+# mise repoints the "latest" symlink itself on every bun upgrade, so this
+# stays correct without edits.
+BUN="$HOME/.local/share/mise/installs/bun/latest/bin/bun"
+
+if [[ ! -x "$BUN" ]]; then
+  echo "⚠️  bun not found at $BUN. Run setup.d/mise first."
   exit 1
 fi
 
-bun install -g @chhoumann/bunnai
+"$BUN" install -g @chhoumann/bunnai
 echo "⚠️  Now configure bunnai with: bunnai config"

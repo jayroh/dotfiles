@@ -19,10 +19,15 @@ if command -v npm &>/dev/null; then
   npm install -g neovim --force
 fi
 
-# Global bun packages for Neovim tooling.
-if command -v bun &>/dev/null; then
+# Global bun packages for Neovim tooling. Call bun via mise's install path
+# directly rather than relying on PATH — this script runs standalone from
+# ./setup, outside any shell that has run `mise activate`. mise repoints the
+# "latest" symlink itself on every bun upgrade, so this stays correct without
+# edits.
+BUN="$HOME/.local/share/mise/installs/bun/latest/bin/bun"
+if [[ -x "$BUN" ]]; then
   echo "Installing bun global packages (oxfmt, mmdc) ..."
-  bun install -g oxfmt @mermaid-js/mermaid-cli
+  "$BUN" install -g oxfmt @mermaid-js/mermaid-cli
 fi
 
 # Python: install the pynvim provider into mise's Python, not the system one.
