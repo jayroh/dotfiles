@@ -20,6 +20,14 @@ if vim.uv.fs_stat(herdr_nav) ~= nil then
 	dofile(herdr_nav)
 end
 
+-- Herdr desktop app (not the TUI): same <C-h/j/k/l> maps, but at a split edge it
+-- calls `herdr-app do pane.go:<dir>`. No-ops unless running inside the app
+-- (no $HERDR_PANE_ID, __CFBundleIdentifier == dev.herdr.app), so the TUI is unaffected.
+local herdr_app_nav = vim.fn.expand("~/.config/herdr-app/mods/vim-nav/editor/nvim.lua")
+if vim.uv.fs_stat(herdr_app_nav) ~= nil then
+	dofile(herdr_app_nav)
+end
+
 local runner = require("herdr.runner")
 
 -- Visual selection, or the current line in normal mode.
