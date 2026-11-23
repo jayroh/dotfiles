@@ -48,8 +48,8 @@ Two places use a "drop a file in, it gets picked up" pattern. Prefer adding a ne
 | `setup.d/mac` | macOS: `brew bundle` (`./Brewfile` + `~/.Brewfile`), Xcode CLT, Font Book. No-ops on linux. |
 | `setup.d/shell` | `chsh` to zsh, install custom terminfos, clone the pure prompt. |
 | `setup.d/mise` | Install mise (brew/pacman/curl-fallback), run `mise install`, pin lazygit, bun, and python globally; also pins `herdr` globally when it's absent from `PATH` — the Linux provisioning path for the binary, since herdr has no AUR package (macOS gets it from the Brewfile instead). **No-ops when `~/.asdf` exists** — asdf takes precedence. |
-| `setup.d/bunnai` | `bun install -g @chhoumann/bunnai`. Requires `setup.d/mise` first. |
-| `setup.d/llm` | Install the `llm` CLI into mise-managed Python via `pip install llm`. Requires `setup.d/mise` first. |
+| `setup.d/bunnai` | `bun install -g @chhoumann/bunnai`. Finds bun via mise, then asdf shims, then `PATH`. |
+| `setup.d/llm` | Install the `llm` CLI into mise-managed Python via `pip install llm`. Requires `setup.d/mise` first; no-ops on asdf machines. |
 | `setup.d/neovim` | Install the `neovim` gem in every mise-managed Ruby; install `pynvim` if Python 3 is present. |
 | `setup.d/omarchy` | Linux (Omarchy): remove Omarchy-seeded nvim plugin files that would otherwise shadow this repo's own. Also clears Omarchy's `tmux.conf`, now vestigial — this repo no longer ships one. No-ops when `~/.config/omarchy` is absent. |
 | `setup.d/prune` | Remove symlinks pointing into this repo whose target was deleted/renamed. `--dry-run` to preview. |

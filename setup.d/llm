@@ -2,6 +2,13 @@
 # Install the llm CLI into mise-managed Python.
 set -e
 
+# asdf machines are provisioned manually; this step is mise-specific.
+if [[ -f "$HOME/.asdf/asdf.sh" || -d "$HOME/.asdf/shims" ]]; then
+  echo "asdf detected at ~/.asdf — skipping llm (mise-managed Python only)."
+  echo "   Install manually: pip install llm"
+  exit 0
+fi
+
 if ! command -v mise &>/dev/null; then
   echo "⚠️  mise not on PATH. Run setup.d/mise first (or activate mise in this shell)."
   exit 1

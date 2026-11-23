@@ -2,15 +2,18 @@
 # Install bunnai (AI commit-message helper for lazygit) globally via bun.
 set -e
 
-# Call bun via mise's install path directly rather than relying on PATH —
-# this script runs standalone from ./setup, outside any shell that has run
-# `mise activate`, so a bare `bun`/`command -v bun` can't see it yet.
-# mise repoints the "latest" symlink itself on every bun upgrade, so this
-# stays correct without edits.
-BUN="$HOME/.local/share/mise/installs/bun/latest/bin/bun"
+# Resolve bun without relying on PATH — this script runs standalone from
+# ./setup, outside any shell that has run `mise activate` / sourced asdf.
+# Prefer mise's install path (mise repoints "latest" itself on upgrades), then
+# asdf's shim dir (asdf takes precedence on machines that have ~/.asdf).
+BUN=""
+for candidate in "$HOME/.local/share/mise/installs/bun/latest/bin/bun" "$HOME/.asdf/shims/bun"; do
+  if [[ -x "$candidate" ]]; then BUN="$candidate"; break; fi
+done
+if [[ -z "$BUN" ]]; then BUN="$(command -v bun || true)"; fi
 
-if [[ ! -x "$BUN" ]]; then
-  echo "⚠️  bun not found at $BUN. Run setup.d/mise first."
+if [[ -z "$BUN" ]]; then
+  echo "⚠️  bun not found (mise or asdf). Run setup.d/mise first, or run: asdf install bun"
   exit 1
 fi
 

@@ -3,4 +3,4 @@ nodejs 24.3.0
 lua    5.1
 stylua 2.1.0
 ruby   3.4.7
-bun    latest
+bun    1.4.5
